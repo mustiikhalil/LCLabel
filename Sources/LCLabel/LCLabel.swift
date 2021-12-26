@@ -1,6 +1,5 @@
-public struct LCLabel {
-    public private(set) var text = "Hello, World!"
+import UIKit
 
-    public init() {
-    }
+class LCLabel: UIView {
+
 }
