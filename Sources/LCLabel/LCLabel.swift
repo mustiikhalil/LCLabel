@@ -84,6 +84,7 @@ final public class LCLabel: UIView {
 
   public override func draw(_ rect: CGRect) {
     super.draw(rect)
+
     guard let storage = storage, let attStr = attributedText,
           !attStr.string.isEmpty else
     {

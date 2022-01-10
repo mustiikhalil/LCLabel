@@ -93,6 +93,7 @@ class LCLabelViewController: UIViewController {
 
     rect.origin.y += 100
     label5 = UILabel()
+    label5.isUserInteractionEnabled = true
     label5.accessibilityIdentifier = "translator"
     label5.frame = CGRect(origin: rect.origin, size: rect.size)
     view.addSubview(label5)
