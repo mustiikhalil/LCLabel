@@ -22,6 +22,7 @@ final public class LCLabel: UIView {
   /// UIEdgeInsets for insetting the text within the Frame
   public var textInsets: UIEdgeInsets = .zero {
     didSet {
+      layoutIfNeeded()
       setNeedsLayout()
       setNeedsDisplay()
     }
@@ -36,11 +37,15 @@ final public class LCLabel: UIView {
       storage
     }
     set {
-      guard let text = newValue else {
-        return
-      }
       // Removes the current text container since we are resetting it
-      storage = NSTextStorage(attributedString: text)
+      if let text = newValue {
+        storage = NSTextStorage(attributedString: text)
+        isHidden = false
+      } else {
+        storage = nil
+        isHidden = true
+      }
+      layoutIfNeeded()
       setNeedsLayout()
       setNeedsDisplay()
     }
@@ -144,6 +149,48 @@ final public class LCLabel: UIView {
   }
 }
 
+// MARK: - Touch APIS
+
+extension LCLabel {
+
+  public override var canBecomeFirstResponder: Bool {
+    true
+  }
+
+  public override func touchesBegan(
+    _ touches: Set<UITouch>,
+    with event: UIEvent?)
+  {
+    if isTouchable(touches) {
+      super.touchesBegan(touches, with: event)
+    }
+  }
+
+  public override func touchesMoved(
+    _ touches: Set<UITouch>,
+    with event: UIEvent?)
+  {
+    if isTouchable(touches) {
+      super.touchesMoved(touches, with: event)
+    }
+  }
+
+  public override func touchesEnded(
+    _ touches: Set<UITouch>,
+    with event: UIEvent?)
+  {
+    if isTouchable(touches) {
+      super.touchesEnded(touches, with: event)
+    }
+  }
+
+  private func isTouchable(_ touches: Set<UITouch>) -> Bool {
+    guard let touch = touches.first else { return false }
+    return getLink(at: touch.location(in: self)) == nil
+  }
+
+}
+
 // MARK: - UIGestureRecognizerDelegate
 
 extension LCLabel: UIGestureRecognizerDelegate {
@@ -204,8 +251,12 @@ extension LCLabel: UIGestureRecognizerDelegate {
       for: _point,
       in: container,
       fractionOfDistanceBetweenInsertionPoints: nil)
-    // we might need to enumerate over here!
-    let url = storage?.attribute(.link, at: index, effectiveRange: nil)
+    // Get the link from the storage since we know its going to be a
+    // .link attribute at an index (x)
+    guard let url = storage?.attribute(.link, at: index, effectiveRange: nil)
+    else {
+      return nil
+    }
     // Return url of the type of link is a url
     if let url = url as? URL {
       return url

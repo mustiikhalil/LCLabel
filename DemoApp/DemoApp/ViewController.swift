@@ -114,6 +114,7 @@ class LCLabelViewController: UIViewController {
     label.accessibilityIdentifier = "lcllabel+\(count)"
     return label
   }
+
 }
 
 extension LCLabelViewController: LCLabelDelegate {
