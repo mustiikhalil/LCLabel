@@ -1,17 +1,23 @@
+// Copyright © 2022 Mustafa Khalil, Inc.
+// Licensed under the Apache License, Version 2.0 (the 'License');
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
 //
-//  CollectionViewController.swift
-//  DemoApp
+// http://www.apache.org/licenses/LICENSE-2.0
 //
-//  Created by Mustafa Khalil on 2022-01-10.
-//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an 'AS IS' BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 
 import LCLabel
 import UIKit
 
-class CollectionViewController: UIViewController {
+final class CollectionViewController: UIViewController {
 
-  var dataSource: UICollectionViewDiffableDataSource<Int, Int>?
-  var snapshot: NSDiffableDataSourceSnapshot<Int, Int>?
+  var dataSource: UICollectionViewDiffableDataSource<Int, String>?
+  var snapshot: NSDiffableDataSourceSnapshot<Int, String>?
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -32,7 +38,7 @@ class CollectionViewController: UIViewController {
           withReuseIdentifier: "id",
           for: indexPath) as! CollectionCell
         cell.text = NSAttributedString(
-          string: "item: \(itemIdentifier)+ \(indexPath) + UUID: \(UUID())",
+          string: itemIdentifier,
           attributes: [
             NSAttributedString.Key.foregroundColor: UIColor.black,
             NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16),
@@ -45,10 +51,12 @@ class CollectionViewController: UIViewController {
   }
 
   private func makeSnapshot(animatingDifferences: Bool = true) {
-    var snapshot = NSDiffableDataSourceSnapshot<Int, Int>()
+    var snapshot = NSDiffableDataSourceSnapshot<Int, String>()
     self.snapshot = snapshot
     snapshot.appendSections([1])
-    snapshot.appendItems((1...10000).map { $0 }, toSection: 1)
+    snapshot.appendItems(
+      (1...10000).map { "item: \($0) + UUID: \(UUID())" },
+      toSection: 1)
     DispatchQueue.main.async { [weak self] in
       self?.dataSource?.apply(
         snapshot,
@@ -63,7 +71,9 @@ class CollectionViewController: UIViewController {
       frame: .zero,
       collectionViewLayout: flowLayout)
     collectionView.translatesAutoresizingMaskIntoConstraints = false
-    collectionView.register(CollectionCell.self, forCellWithReuseIdentifier: "id")
+    collectionView.register(
+      CollectionCell.self,
+      forCellWithReuseIdentifier: "id")
     collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
     collectionView.backgroundColor = .white
     return collectionView
@@ -99,7 +109,6 @@ private final class CollectionCell: UICollectionViewCell {
   private let label: LCLabel = {
     let label = LCLabel(frame: .zero)
     label.backgroundColor = .white
-//    label.textAlignment = .top
     label.isUserInteractionEnabled = true
     label.numberOfLines = 0
     return label

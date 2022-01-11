@@ -1,13 +1,19 @@
+// Copyright © 2022 Mustafa Khalil, Inc.
+// Licensed under the Apache License, Version 2.0 (the 'License');
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
 //
-//  LCLabelUITests.swift
-//  LCLabelUITests
+// http://www.apache.org/licenses/LICENSE-2.0
 //
-//  Created by Mustafa Khalil on 2022-01-05.
-//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an 'AS IS' BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 
 import XCTest
 
-class LCLabelUITests: XCTestCase {
+final class LCLabelUITests: XCTestCase {
 
   private var app: XCUIApplication!
 
@@ -17,6 +23,7 @@ class LCLabelUITests: XCTestCase {
 
   func testLabel1() {
     app = XCUIApplication()
+    app.launchArguments = [""]
     app.launch()
     let main = app.otherElements["main"]
     XCTAssertTrue(main.exists)
@@ -37,6 +44,7 @@ class LCLabelUITests: XCTestCase {
 
   func testLabel2() {
     app = XCUIApplication()
+    app.launchArguments = [""]
     app.launch()
     let main = app.otherElements["main"]
     XCTAssertTrue(main.exists)
@@ -49,6 +57,7 @@ class LCLabelUITests: XCTestCase {
 
   func testLabel3() {
     app = XCUIApplication()
+    app.launchArguments = [""]
     app.launch()
     let main = app.otherElements["main"]
     XCTAssertTrue(main.exists)
@@ -67,6 +76,7 @@ class LCLabelUITests: XCTestCase {
 
   func testLabel4() {
     app = XCUIApplication()
+    app.launchArguments = [""]
     app.launch()
     let main = app.otherElements["main"]
     XCTAssertTrue(main.exists)
