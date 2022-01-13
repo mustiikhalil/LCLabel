@@ -13,7 +13,7 @@
 
 import SnapshotTesting
 import XCTest
-@testable import LCLabel
+import LCLabel
 
 final class LCLabelTests: XCTestCase {
 

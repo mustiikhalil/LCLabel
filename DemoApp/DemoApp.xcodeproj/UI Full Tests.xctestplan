@@ -1,0 +1,44 @@
+{
+  "configurations" : [
+    {
+      "id" : "00F84E76-D295-42B6-8153-8243CD434C45",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : false,
+    "commandLineArgumentEntries" : [
+      {
+        "argument" : "-scrollview -cellnumbers",
+        "enabled" : false
+      }
+    ],
+    "mainThreadCheckerEnabled" : false,
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:DemoApp.xcodeproj",
+      "identifier" : "3B29F023276E99AB00CE3D2D",
+      "name" : "DemoApp"
+    },
+    "uiTestingScreenshotsLifetime" : "keepNever"
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:DemoApp.xcodeproj",
+        "identifier" : "3B21D47E2785F3EF0009DE6A",
+        "name" : "LCLabelUITests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:..",
+        "identifier" : "LCLabelTests",
+        "name" : "LCLabelTests"
+      }
+    }
+  ],
+  "version" : 1
+}
