@@ -13,7 +13,7 @@
 
 import XCTest
 
-final class LCLabelUITests: XCTestCase {
+final class LCLabelHitTests: XCTestCase {
 
   private var app: XCUIApplication!
 
