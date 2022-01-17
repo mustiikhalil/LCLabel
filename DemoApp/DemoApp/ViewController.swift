@@ -38,10 +38,10 @@ final class LCLabelViewController: UIViewController {
         NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16),
       ])
     let range = (text.string as NSString).range(of: "welcome")
-    text.addAttribute(.link, value: URL(string: "tel://909001")!, range: range)
-    text.addAttribute(.foregroundColor, value: UIColor.red, range: range)
-    text.addAttribute(.underlineStyle, value: 0, range: range)
-    text.addAttribute(.underlineColor, value: UIColor.clear, range: range)
+    text.addAttribute(
+      .lclabelLink,
+      value: URL(string: "tel://909001")!,
+      range: range)
 
     var rect = CGRect(
       x: 10,
@@ -77,17 +77,8 @@ final class LCLabelViewController: UIViewController {
     let longTextRange = (text.string as NSString)
       .range(of: "very very long text")
     text.addAttribute(
-      .link,
+      .lclabelLink,
       value: URL(string: "https://github.com")!,
-      range: longTextRange)
-    text.addAttribute(
-      .foregroundColor,
-      value: UIColor.red,
-      range: longTextRange)
-    text.addAttribute(.underlineStyle, value: 0, range: longTextRange)
-    text.addAttribute(
-      .underlineColor,
-      value: UIColor.clear,
       range: longTextRange)
 
     label4 = labelFactory(
@@ -113,6 +104,9 @@ final class LCLabelViewController: UIViewController {
     label.frame = frame
     label.backgroundColor = .black
     view.addSubview(label)
+    label.linkAttributes = [
+      .foregroundColor: UIColor.white,
+    ]
     label.textAlignment = .top
     label.isUserInteractionEnabled = true
     label.numberOfLines = 1

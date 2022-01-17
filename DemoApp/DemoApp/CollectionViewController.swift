@@ -111,6 +111,10 @@ private final class CollectionCell: UICollectionViewCell {
     label.backgroundColor = .white
     label.isUserInteractionEnabled = true
     label.numberOfLines = 0
+    label.linkStyleValidation = .ensure
+    label.linkAttributes = [
+      .lclabelLink: URL(string: "https://github.com")!,
+    ]
     return label
   }()
 }

@@ -11,9 +11,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import LCLabel
 import SnapshotTesting
 import XCTest
-import LCLabel
 
 final class LCLabelTests: XCTestCase {
 
