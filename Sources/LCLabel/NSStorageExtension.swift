@@ -13,7 +13,6 @@
 
 import UIKit
 
-
 public extension NSAttributedString.Key {
   static let lclabelLink = NSAttributedString.Key("lclabelLink")
 }
