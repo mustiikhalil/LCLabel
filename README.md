@@ -103,13 +103,13 @@ open package.swift
 Using UILabel as a baseline, we were able to achieve a similar performance to UILabel.
 
 A simple text in a LCLabel would use around `96 Kib` in memory compared to UILabel.
-![](Resources/shorttext.png)
+![](Sources/LCLabel/LCLabel.docc/Resources/screenshots/shorttext.png)
 
 A single line text in a LCLabel would use around `384 Kib` in memory compared to UILabel.
-![](Resources/oneline-text-long.png)
+![](Sources/LCLabel/LCLabel.docc/Resources/screenshots/oneline-text-long.png)
 
 A single line with Emojis text in a LCLabel would use around `1.12 MiB` in memory compared to the `1.23 MiB` UILabel.
-![](Resources/longtext-emoji.png)
+![](Sources/LCLabel/LCLabel.docc/Resources/screenshots/longtext-emoji.png)
 
 #### Scrolling
 

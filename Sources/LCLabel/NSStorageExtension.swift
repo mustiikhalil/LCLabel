@@ -20,7 +20,7 @@ public extension NSAttributedString.Key {
 
 extension NSTextStorage {
 
-  func setupRenderStorageWith(
+  func setupStorageWith(
     linkAttributes: [NSAttributedString.Key: Any],
     shouldExcludeUnderlinesFromText: Bool)
   {
@@ -53,11 +53,12 @@ extension NSTextStorage {
       let currentAttributes = attributes(
         at: range.lowerBound,
         effectiveRange: &range)
+      guard let link = currentAttributes[.link] else { continue }
       beginEditing()
       removeAttribute(.link, range: range)
       addAttribute(
         .lclabelLink,
-        value: currentAttributes[.link],
+        value: link,
         range: range)
       endEditing()
     }

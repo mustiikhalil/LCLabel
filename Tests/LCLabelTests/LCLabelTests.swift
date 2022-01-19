@@ -168,7 +168,7 @@ final class LCLabelTests: XCTestCase {
   private func createLabel(
     text: NSMutableAttributedString,
     frame: CGRect,
-    alignment: LCLabelTextAlignment = .center,
+    alignment: LCLabel.Alignment = .center,
     numberOfLines: Int = 1) -> LCLabel
   {
     let label = LCLabel(frame: .zero)

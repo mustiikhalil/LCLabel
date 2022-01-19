@@ -215,7 +215,7 @@ final public class LCLabel: UIView {
     switch linkStyleValidation {
     case .ensure:
       if let linkAttributes = linkAttributes {
-        renderedStorage.setupRenderStorageWith(
+        renderedStorage.setupStorageWith(
           linkAttributes: linkAttributes,
           shouldExcludeUnderlinesFromText: shouldExcludeUnderlinesFromText)
       } else {
