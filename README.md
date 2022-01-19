@@ -103,12 +103,15 @@ open package.swift
 Using UILabel as a baseline, we were able to achieve a similar performance to UILabel.
 
 A simple text in a LCLabel would use around `96 Kib` in memory compared to UILabel.
+
 ![](Sources/LCLabel/LCLabel.docc/Resources/screenshots/shorttext.png)
 
 A single line text in a LCLabel would use around `384 Kib` in memory compared to UILabel.
+
 ![](Sources/LCLabel/LCLabel.docc/Resources/screenshots/oneline-text-long.png)
 
 A single line with Emojis text in a LCLabel would use around `1.12 MiB` in memory compared to the `1.23 MiB` UILabel.
+
 ![](Sources/LCLabel/LCLabel.docc/Resources/screenshots/longtext-emoji.png)
 
 #### Scrolling
@@ -118,3 +121,10 @@ when scrolling and that was measured in the `UI Full Tests`.
 The benchmark was based on the amount of hitches detected on an iPhone XS, 
 where both labels had zero hitches when scrolling a list around 5 times each time we ran the test.
 
+## License
+
+`LCLabel` is [MIT-licensed](./LICENSE.md).
+
+### Disclamre 
+
+[UILabel](https://developer.apple.com/documentation/uikit/uilabel/) and [UITextView](https://developer.apple.com/documentation/uikit/uitextview) are Apple's own components. 
