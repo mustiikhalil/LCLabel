@@ -115,6 +115,7 @@ final public class LCLabel: UIView {
     return layoutManager
   }()
 
+  private var currentlySelectedLink: URL?
   private var textContainer: NSTextContainer?
 
   // MARK: - Life Cycle
@@ -231,7 +232,8 @@ extension LCLabel {
     _ touches: Set<UITouch>,
     with event: UIEvent?)
   {
-    if isTouchable(touches) {
+    currentlySelectedLink = linkAt(touches)
+    if currentlySelectedLink == nil {
       super.touchesBegan(touches, with: event)
     }
   }
@@ -240,7 +242,9 @@ extension LCLabel {
     _ touches: Set<UITouch>,
     with event: UIEvent?)
   {
-    if isTouchable(touches) {
+    if currentlySelectedLink != linkAt(touches) {
+      currentlySelectedLink = nil
+    } else {
       super.touchesMoved(touches, with: event)
     }
   }
@@ -249,14 +253,27 @@ extension LCLabel {
     _ touches: Set<UITouch>,
     with event: UIEvent?)
   {
-    if isTouchable(touches) {
+    if currentlySelectedLink == nil {
       super.touchesEnded(touches, with: event)
+    } else {
+      currentlySelectedLink = nil
     }
   }
 
-  private func isTouchable(_ touches: Set<UITouch>) -> Bool {
-    guard let touch = touches.first else { return false }
-    return getLink(at: touch.location(in: self)) == nil
+  public override func touchesCancelled(
+    _ touches: Set<UITouch>,
+    with event: UIEvent?)
+  {
+    if currentlySelectedLink != nil {
+      currentlySelectedLink = nil
+    } else {
+      super.touchesCancelled(touches, with: event)
+    }
+  }
+
+  private func linkAt(_ touches: Set<UITouch>) -> URL? {
+    guard let touch = touches.first else { return nil }
+    return getLink(at: touch.location(in: self))
   }
 
 }
