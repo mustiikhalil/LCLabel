@@ -90,6 +90,7 @@ final public class LCLabel: UIView {
       renderedStorage
     }
     set {
+      currentlySelectedLink = nil
       // Removes the current text container since we are resetting it
       if let text = newValue {
         renderedStorage = NSTextStorage(attributedString: text)
@@ -116,7 +117,6 @@ final public class LCLabel: UIView {
   }()
 
   private var currentlySelectedLink: URL?
-  private var textContainer: NSTextContainer?
 
   // MARK: - Life Cycle
 
@@ -228,6 +228,17 @@ extension LCLabel {
     true
   }
 
+  public override func hitTest(
+    _ point: CGPoint,
+    with event: UIEvent?) -> UIView?
+  {
+    let link = getLink(at: point)
+    if link == nil || !isUserInteractionEnabled || isHidden {
+      return super.hitTest(point, with: event)
+    }
+    return self
+  }
+
   public override func touchesBegan(
     _ touches: Set<UITouch>,
     with event: UIEvent?)
@@ -242,8 +253,10 @@ extension LCLabel {
     _ touches: Set<UITouch>,
     with event: UIEvent?)
   {
-    if currentlySelectedLink != linkAt(touches) {
-      currentlySelectedLink = nil
+    if let currentlySelectedLink = currentlySelectedLink,
+        currentlySelectedLink != linkAt(touches)
+    {
+      self.currentlySelectedLink = nil
     } else {
       super.touchesMoved(touches, with: event)
     }
@@ -253,10 +266,15 @@ extension LCLabel {
     _ touches: Set<UITouch>,
     with event: UIEvent?)
   {
-    if currentlySelectedLink == nil {
-      super.touchesEnded(touches, with: event)
+    if let currentSelectedLink = currentlySelectedLink {
+      self.currentlySelectedLink = nil
+      if let touch = touches.first {
+        delegate?.didPress(
+          url: currentSelectedLink,
+          at: touch.location(in: self))
+      }
     } else {
-      currentlySelectedLink = nil
+      super.touchesEnded(touches, with: event)
     }
   }
 
@@ -282,20 +300,11 @@ extension LCLabel {
 
 extension LCLabel: UIGestureRecognizerDelegate {
 
-  public override func gestureRecognizerShouldBegin(
-    _ gestureRecognizer: UIGestureRecognizer)
-    -> Bool
-  {
-    isUserInteractionEnabled
-  }
-
   public func gestureRecognizer(
     _ gestureRecognizer: UIGestureRecognizer,
     shouldReceive touch: UITouch) -> Bool
   {
-    let point = touch.location(in: self)
-    checkoutLink(at: point)
-    return false
+    return getLink(at: touch.location(in: self)) != nil
   }
 
   @objc
