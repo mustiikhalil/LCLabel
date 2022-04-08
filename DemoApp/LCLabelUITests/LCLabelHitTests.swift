@@ -5,6 +5,7 @@
 
 import XCTest
 
+// Screenshots taken on an iPhone 13
 final class LCLabelHitTests: XCTestCase {
 
   private var app: XCUIApplication!
@@ -77,7 +78,7 @@ final class LCLabelHitTests: XCTestCase {
     XCTAssertEqual(main.staticTexts["translator"].label, "")
     app.tapCoordinate(at: CGPoint(x: 10, y: 400))
     XCTAssertEqual(main.staticTexts["translator"].label, "")
-    app.tapCoordinate(at: CGPoint(x: 40, y: 430))
+    app.tapCoordinate(at: CGPoint(x: 30, y: 430))
     XCTAssertEqual(main.staticTexts["translator"].label, "tel://909001")
     app.tapCoordinate(at: CGPoint(x: 200, y: 430))
     XCTAssertEqual(main.staticTexts["translator"].label, "tel://909001")

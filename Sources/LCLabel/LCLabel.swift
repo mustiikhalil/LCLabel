@@ -82,6 +82,8 @@ final public class LCLabel: UIView {
   public var linkStyleValidation: LinksStyleValidation = .skip
   /// Line breaking mode the label uses, default is `.byTruncatingTail`
   public var lineBreakMode: NSLineBreakMode = .byTruncatingTail
+  /// Line padding at the beginning of the view
+  public var lineFragmentPadding: CGFloat = 0
   /// Number of lines allowed
   public var numberOfLines = 1
   /// Text to be displayed
@@ -155,6 +157,7 @@ final public class LCLabel: UIView {
     let container = NSTextContainer(size: bounds.size)
     container.maximumNumberOfLines = numberOfLines
     container.lineBreakMode = lineBreakMode
+    container.lineFragmentPadding = lineFragmentPadding
     layoutManager.addTextContainer(container)
     storage.addLayoutManager(layoutManager)
     let range = layoutManager.glyphRange(for: container)

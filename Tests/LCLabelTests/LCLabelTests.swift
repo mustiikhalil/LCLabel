@@ -7,6 +7,7 @@ import LCLabel
 import SnapshotTesting
 import XCTest
 
+// Screenshots taken on an iPhone 13
 final class LCLabelTests: XCTestCase {
 
   func testTextCenterAlignment() {
