@@ -53,12 +53,21 @@ final public class LCLabel: UIView {
   /// A LCLabel delegate that responses to link interactions within
   /// the view
   public weak var delegate: LCLabelDelegate?
+  public override var frame: CGRect {
+    didSet {
+      refreshView()
+    }
+  }
   /// Text ``Alignment`` within the frame
-  public var textAlignment: LCLabel.Alignment = .center
+  public var textAlignment: LCLabel.Alignment = .center {
+    didSet {
+      refreshView()
+    }
+  }
   /// Texts inset within the Frame
   public var textInsets: UIEdgeInsets = .zero {
     didSet {
-      layoutIfNeeded()
+      refreshView()
     }
   }
   /// The attributes to apply to links.
@@ -66,7 +75,7 @@ final public class LCLabel: UIView {
     didSet {
       guard renderedStorage != nil else { return }
       setupRenderStorage()
-      layoutIfNeeded()
+      refreshView()
     }
   }
   /// Exclues underlines attributes from text
@@ -74,18 +83,34 @@ final public class LCLabel: UIView {
     didSet {
       guard renderedStorage != nil else { return }
       setupRenderStorage()
-      layoutIfNeeded()
+      refreshView()
     }
   }
   /// Validates if the user passed an attributed string of type .link and switches
   /// it to .lclabelLink
-  public var linkStyleValidation: LinksStyleValidation = .skip
+  public var linkStyleValidation: LinksStyleValidation = .skip {
+    didSet {
+      refreshView()
+    }
+  }
   /// Line breaking mode the label uses, default is `.byTruncatingTail`
-  public var lineBreakMode: NSLineBreakMode = .byTruncatingTail
+  public var lineBreakMode: NSLineBreakMode = .byTruncatingTail {
+    didSet {
+      refreshView()
+    }
+  }
   /// Line padding at the beginning of the view
-  public var lineFragmentPadding: CGFloat = 0
+  public var lineFragmentPadding: CGFloat = 0 {
+    didSet {
+      refreshView()
+    }
+  }
   /// Number of lines allowed
-  public var numberOfLines = 1
+  public var numberOfLines = 1 {
+    didSet {
+      refreshView()
+    }
+  }
   /// Text to be displayed
   public var attributedText: NSAttributedString? {
     get {
@@ -102,14 +127,13 @@ final public class LCLabel: UIView {
         isHidden = true
       }
       setupRenderStorage()
-      layoutIfNeeded()
-      setNeedsLayout()
-      setNeedsDisplay()
+      refreshView()
     }
   }
 
   /// Current text to be displayed
-  private var renderedStorage: NSTextStorage!
+  private var renderedStorage: NSTextStorage?
+  private var textContainer: NSTextContainer?
   private var currentCalculatedFrame: CGRect?
 
   /// Current LayoutManager
@@ -124,12 +148,10 @@ final public class LCLabel: UIView {
 
   public init() {
     super.init(frame: .zero)
-    setupLabel()
   }
 
   public override init(frame: CGRect) {
     super.init(frame: frame)
-    setupLabel()
   }
 
   public required init?(coder: NSCoder) {
@@ -146,19 +168,28 @@ final public class LCLabel: UIView {
       return
     }
 
-    // Removes the current text container and replace it with a newer one
-    if !layoutManager.textContainers.isEmpty {
-      layoutManager.removeTextContainer(at: 0)
-    }
-
     let bounds = textRect(forBounds: rect)
 
     currentCalculatedFrame = bounds
-    let container = NSTextContainer(size: bounds.size)
+
+    let container: NSTextContainer
+    // Check if the current text container is still valid
+    // with the proper size.
+    if let textContainer = textContainer,
+        textContainer.size == bounds.size
+    {
+      container = textContainer
+    } else {
+      // Removes the current text container and replace it with a newer one
+      if !layoutManager.textContainers.isEmpty {
+        layoutManager.removeTextContainer(at: 0)
+      }
+      container = NSTextContainer(size: bounds.size)
+      layoutManager.addTextContainer(container)
+    }
     container.maximumNumberOfLines = numberOfLines
     container.lineBreakMode = lineBreakMode
     container.lineFragmentPadding = lineFragmentPadding
-    layoutManager.addTextContainer(container)
     storage.addLayoutManager(layoutManager)
     let range = layoutManager.glyphRange(for: container)
 
@@ -197,12 +228,9 @@ final public class LCLabel: UIView {
     return newBounds
   }
 
-  private func setupLabel() {
-    let tapGesture = UILongPressGestureRecognizer(
-      target: self,
-      action: #selector(handleUserInput))
-    tapGesture.delegate = self
-    addGestureRecognizer(tapGesture)
+  private func refreshView() {
+    setNeedsDisplay()
+    setNeedsLayout()
   }
 
   /// The following functions replaces
@@ -297,37 +325,6 @@ extension LCLabel {
     return getLink(at: touch.location(in: self))
   }
 
-}
-
-// MARK: - UIGestureRecognizerDelegate
-
-extension LCLabel: UIGestureRecognizerDelegate {
-
-  public func gestureRecognizer(
-    _ gestureRecognizer: UIGestureRecognizer,
-    shouldReceive touch: UITouch) -> Bool
-  {
-    return getLink(at: touch.location(in: self)) != nil
-  }
-
-  @objc
-  private func handleUserInput(_ gesture: UILongPressGestureRecognizer) {
-    let point = gesture.location(in: self)
-    switch gesture.state {
-    case .began:
-      checkoutLink(at: point)
-    default:
-      break
-    }
-  }
-
-  private func checkoutLink(at point: CGPoint) {
-    guard let url = getLink(at: point) else {
-      return
-    }
-    delegate?.didPress(url: url, at: point)
-  }
-
   private func getLink(at point: CGPoint) -> URL? {
     // Check if the point is within the bounds of the text
     // container before converting it
@@ -354,7 +351,7 @@ extension LCLabel: UIGestureRecognizerDelegate {
     // .link attribute at an index (x)
     // (Note): we are using attachment since i couldnt remove the default
     // link coloring with TextKit
-    guard let url = renderedStorage.attribute(
+    guard let url = renderedStorage?.attribute(
       .lclabelLink,
       at: index,
       effectiveRange: nil)
