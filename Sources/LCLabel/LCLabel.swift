@@ -155,7 +155,7 @@ final public class LCLabel: UIView {
   }
 
   public required init?(coder: NSCoder) {
-    fatalError("Coder init isnt supported here.")
+    super.init(coder: coder)
   }
 
   // MARK: - Implementation

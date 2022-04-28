@@ -16,6 +16,7 @@
 		3B47B672279045750021013E /* LCLabelScrollTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B47B671279045750021013E /* LCLabelScrollTests.swift */; };
 		3B7F146F278CC0ED00AFDD43 /* CollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B7F146E278CC0ED00AFDD43 /* CollectionViewController.swift */; };
 		3BC1D7222778FC310071AB35 /* LCLabel in Frameworks */ = {isa = PBXBuildFile; productRef = 3BC1D7212778FC310071AB35 /* LCLabel */; };
+		A17C589F281B04D7001092B9 /* LCLabel.xib in Resources */ = {isa = PBXBuildFile; fileRef = A17C589E281B04D7001092B9 /* LCLabel.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,6 +43,7 @@
 		3B47B67327905CA90021013E /* UI Full Tests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; name = "UI Full Tests.xctestplan"; path = "DemoApp.xcodeproj/UI Full Tests.xctestplan"; sourceTree = "<group>"; };
 		3B7F146E278CC0ED00AFDD43 /* CollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewController.swift; sourceTree = "<group>"; };
 		3BC1D71F2778F8EB0071AB35 /* LCLabel */ = {isa = PBXFileReference; lastKnownFileType = folder; name = LCLabel; path = ..; sourceTree = "<group>"; };
+		A17C589E281B04D7001092B9 /* LCLabel.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LCLabel.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +105,7 @@
 				3B29F032276E99AD00CE3D2D /* LaunchScreen.storyboard */,
 				3B29F035276E99AD00CE3D2D /* Info.plist */,
 				3B7F146E278CC0ED00AFDD43 /* CollectionViewController.swift */,
+				A17C589E281B04D7001092B9 /* LCLabel.xib */,
 			);
 			path = DemoApp;
 			sourceTree = "<group>";
@@ -214,6 +217,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3B29F034276E99AD00CE3D2D /* LaunchScreen.storyboard in Resources */,
+				A17C589F281B04D7001092B9 /* LCLabel.xib in Resources */,
 				3B29F031276E99AD00CE3D2D /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

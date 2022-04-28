@@ -6,6 +6,17 @@
 import LCLabel
 import UIKit
 
+extension UIView {
+    class func fromNib<T: UIView>() -> T {
+      return Bundle(
+        for: LCLabelViewController.self)
+      .loadNibNamed(
+        String(describing: T.self),
+        owner: nil,
+        options: nil)![0] as! T
+    }
+}
+
 final class LCLabelViewController: UIViewController {
 
   var count: Int = 0
@@ -86,6 +97,12 @@ final class LCLabelViewController: UIViewController {
     label5.accessibilityIdentifier = "translator"
     label5.frame = CGRect(origin: rect.origin, size: rect.size)
     view.addSubview(label5)
+
+    let loadView: LCLabel = UIView.fromNib()
+    rect.origin.y += 100
+    loadView.frame = CGRect(origin: rect.origin, size: rect.size)
+    loadView.attributedText = NSAttributedString(string: "Awake from nib")
+    view.addSubview(loadView)
   }
 
   func labelFactory(
