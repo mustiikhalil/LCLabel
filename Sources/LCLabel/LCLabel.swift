@@ -50,6 +50,16 @@ final public class LCLabel: UIView {
   }
 
   // MARK: - Variables
+
+  public override var accessibilityTraits: UIAccessibilityTraits {
+    get {
+      _accessibilityTraits
+    }
+    set {
+      _accessibilityTraits = newValue
+    }
+  }
+
   /// A LCLabel delegate that responses to link interactions within
   /// the view
   public weak var delegate: LCLabelDelegate?
@@ -126,6 +136,7 @@ final public class LCLabel: UIView {
         renderedStorage = nil
         isHidden = true
       }
+      accessibilityIdentifier = newValue?.string
       setupRenderStorage()
       refreshView()
     }
@@ -143,14 +154,16 @@ final public class LCLabel: UIView {
   }()
 
   private var currentlySelectedLink: URL?
+  private var _accessibilityTraits: UIAccessibilityTraits
 
   // MARK: - Life Cycle
 
-  public init() {
-    super.init(frame: .zero)
+  public convenience init() {
+    self.init(frame: .zero)
   }
 
   public override init(frame: CGRect) {
+    _accessibilityTraits = .staticText
     super.init(frame: frame)
   }
 

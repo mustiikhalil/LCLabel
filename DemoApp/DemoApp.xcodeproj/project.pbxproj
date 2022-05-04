@@ -139,6 +139,8 @@
 				3B21D4862785F3EF0009DE6A /* PBXTargetDependency */,
 			);
 			name = LCLabelUITests;
+			packageProductDependencies = (
+			);
 			productName = LCLabelUITests;
 			productReference = 3B21D47F2785F3EF0009DE6A /* LCLabelUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";

@@ -18,6 +18,11 @@ final class LCLabelHitTests: XCTestCase {
     app = XCUIApplication()
     app.launchArguments = [""]
     app.launch()
+
+    XCTAssertEqual(
+      app.staticTexts.matching(.staticText, identifier: "lcllabel+1").firstMatch.identifier,
+      "lcllabel+1")
+
     let main = app.otherElements["main"]
     XCTAssertTrue(main.exists)
     XCTAssertTrue(main.staticTexts["translator"].exists)
