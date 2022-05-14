@@ -314,12 +314,6 @@ final class LCLabelTests: XCTestCase {
       .font: UIFont.systemFont(ofSize: 12),
     ]
     label.attributedText = attStr
-    let text = label.attributedText
-    let range = (text!.string as NSString).range(of: "@LCLabel")
-    text?.enumerateAttributes(in: range, using: { attr, range, _ in
-      XCTAssertEqual(
-        attr[.lclabelLink] as? String, "lclabel://welcome")
-    })
     let failure = verifySnapshot(
       matching: label,
       as: .image,
