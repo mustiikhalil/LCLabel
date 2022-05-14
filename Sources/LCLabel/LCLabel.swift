@@ -189,7 +189,7 @@ final public class LCLabel: UIView {
     // Check if the current text container is still valid
     // with the proper size.
     if let textContainer = textContainer,
-        textContainer.size == bounds.size
+       textContainer.size == bounds.size
     {
       container = textContainer
     } else {
@@ -298,7 +298,7 @@ extension LCLabel {
     with event: UIEvent?)
   {
     if let currentlySelectedLink = currentlySelectedLink,
-        currentlySelectedLink != linkAt(touches)
+       currentlySelectedLink != linkAt(touches)
     {
       self.currentlySelectedLink = nil
     } else {
@@ -311,7 +311,7 @@ extension LCLabel {
     with event: UIEvent?)
   {
     if let currentSelectedLink = currentlySelectedLink {
-      self.currentlySelectedLink = nil
+      currentlySelectedLink = nil
       if let touch = touches.first {
         delegate?.didPress(
           url: currentSelectedLink,
