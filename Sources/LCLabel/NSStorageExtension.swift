@@ -29,7 +29,6 @@ extension NSTextStorage {
         mergedAttributes[.underlineColor] = UIColor.clear
       }
       if let link = mergedAttributes[.link] {
-        print(link)
         mergedAttributes[.lclabelLink] = link
         mergedAttributes.removeValue(forKey: .link)
       }
