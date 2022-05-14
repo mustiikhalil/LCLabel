@@ -250,6 +250,85 @@ final class LCLabelTests: XCTestCase {
     })
   }
 
+  func testString() {
+    let attStr = NSMutableAttributedString(
+      string: "LCLabel",
+      attributes: [
+        .foregroundColor: UIColor.white,
+        .font: UIFont.systemFont(ofSize: 14),
+      ])
+    attStr.append(NSAttributedString(
+      string: "\n@LCLabel",
+      attributes: [
+        .foregroundColor: UIColor.white,
+        .font: UIFont.systemFont(ofSize: 10),
+        .link: "lclabel://welcome",
+      ]))
+    let label = LCLabel(frame: .zero)
+    label.frame = CGRect(x: 0, y: 0, width: 300, height: 40)
+    label.textAlignment = .center
+    label.numberOfLines = 2
+    label.shouldExcludeUnderlinesFromText = false
+    label.linkStyleValidation = .ensure
+    label.linkAttributes = [
+      .foregroundColor: UIColor.green,
+      .font: UIFont.systemFont(ofSize: 12),
+    ]
+    label.attributedText = attStr
+    let text = label.attributedText
+    let range = (text!.string as NSString).range(of: "@LCLabel")
+    text?.enumerateAttributes(in: range, using: { attr, range, _ in
+      XCTAssertEqual(
+        attr[.lclabelLink] as? String, "lclabel://welcome")
+    })
+    let failure = verifySnapshot(
+      matching: label,
+      as: .image,
+      snapshotDirectory: path)
+    guard let message = failure else { return }
+    XCTFail(message)
+  }
+
+  func testStringWithoutValidations() {
+    let attStr = NSMutableAttributedString(
+      string: "LCLabel",
+      attributes: [
+        .foregroundColor: UIColor.white,
+        .font: UIFont.systemFont(ofSize: 14),
+      ])
+    attStr.append(NSAttributedString(
+      string: "\n@LCLabel",
+      attributes: [
+        .foregroundColor: UIColor.white,
+        .font: UIFont.systemFont(ofSize: 10),
+        .link: "lclabel://welcome",
+      ]))
+    let label = LCLabel(frame: .zero)
+    label.frame = CGRect(x: 0, y: 0, width: 300, height: 40)
+    label.textAlignment = .center
+    label.numberOfLines = 2
+    label.shouldExcludeUnderlinesFromText = false
+    label.linkStyleValidation = .skip
+    label.linkAttributes = [
+      .foregroundColor: UIColor.green,
+      .font: UIFont.systemFont(ofSize: 12),
+    ]
+    label.attributedText = attStr
+    let text = label.attributedText
+    let range = (text!.string as NSString).range(of: "@LCLabel")
+    text?.enumerateAttributes(in: range, using: { attr, range, _ in
+      XCTAssertEqual(
+        attr[.lclabelLink] as? String, "lclabel://welcome")
+    })
+    let failure = verifySnapshot(
+      matching: label,
+      as: .image,
+      snapshotDirectory: path)
+    guard let message = failure else { return }
+    XCTFail(message)
+  }
+
+
   func testSuperLongText() {
     let text = """
     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Aliquet bibendum enim facilisis gravida neque. Orci a scelerisque purus semper eget duis at. Viverra justo nec ultrices dui sapien eget mi proin. Etiam non quam lacus suspendisse faucibus. Vel fringilla est ullamcorper eget nulla facilisi etiam. Donec enim diam vulputate ut pharetra sit amet aliquam id. Ipsum faucibus vitae aliquet nec ullamcorper sit amet risus. Ultrices gravida dictum fusce ut. Nulla aliquet porttitor lacus luctus accumsan tortor posuere ac. Turpis egestas sed tempus urna et pharetra. Pellentesque nec nam aliquam sem et tortor consequat. Risus sed vulputate odio ut enim blandit volutpat maecenas. Ullamcorper velit sed ullamcorper morbi tincidunt ornare massa. Blandit massa enim nec dui nunc mattis enim ut. Tristique sollicitudin nibh sit amet.
