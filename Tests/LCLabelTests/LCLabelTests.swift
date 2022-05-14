@@ -158,6 +158,37 @@ final class LCLabelTests: XCTestCase {
     XCTFail(message)
   }
 
+  func testSuperLongText() {
+    let text = """
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Aliquet bibendum enim facilisis gravida neque. Orci a scelerisque purus semper eget duis at. Viverra justo nec ultrices dui sapien eget mi proin. Etiam non quam lacus suspendisse faucibus. Vel fringilla est ullamcorper eget nulla facilisi etiam. Donec enim diam vulputate ut pharetra sit amet aliquam id. Ipsum faucibus vitae aliquet nec ullamcorper sit amet risus. Ultrices gravida dictum fusce ut. Nulla aliquet porttitor lacus luctus accumsan tortor posuere ac. Turpis egestas sed tempus urna et pharetra. Pellentesque nec nam aliquam sem et tortor consequat. Risus sed vulputate odio ut enim blandit volutpat maecenas. Ullamcorper velit sed ullamcorper morbi tincidunt ornare massa. Blandit massa enim nec dui nunc mattis enim ut. Tristique sollicitudin nibh sit amet.
+    """
+    let attr: [NSAttributedString.Key: Any] = [
+      .foregroundColor: UIColor.white,
+      .font: UIFont.systemFont(ofSize: 14),
+    ]
+    let attStr = NSMutableAttributedString(
+      string: text,
+      attributes: attr)
+
+    let width: CGFloat = 300
+    let size = (attStr.string as NSString).boundingRect(
+      with: CGSize(width: width, height: .greatestFiniteMagnitude),
+      options: [.usesLineFragmentOrigin, .usesFontLeading],
+      attributes: attr,
+      context: nil)
+    print(size)
+    let label = createLabel(
+      text: attStr,
+      frame: CGRect(x: 0, y: 0, width: width, height: size.height))
+    label.numberOfLines = 0
+    let failure = verifySnapshot(
+      matching: label,
+      as: .image,
+      snapshotDirectory: path)
+    guard let message = failure else { return }
+    XCTFail(message)
+  }
+
   private func createLabel(
     text: NSMutableAttributedString,
     frame: CGRect,
