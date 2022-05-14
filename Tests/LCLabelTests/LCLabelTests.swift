@@ -176,7 +176,6 @@ final class LCLabelTests: XCTestCase {
       options: [.usesLineFragmentOrigin, .usesFontLeading],
       attributes: attr,
       context: nil)
-    print(size)
     let label = createLabel(
       text: attStr,
       frame: CGRect(x: 0, y: 0, width: width, height: size.height))

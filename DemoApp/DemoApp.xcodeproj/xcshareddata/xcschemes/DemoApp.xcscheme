@@ -29,6 +29,22 @@
       shouldUseLaunchSchemeArgsEnv = "YES"
       systemAttachmentLifetime = "keepAlways"
       codeCoverageEnabled = "YES">
+      <CodeCoverageTargets>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "LCLabel"
+            BuildableName = "LCLabel"
+            BlueprintName = "LCLabel"
+            ReferencedContainer = "container:..">
+         </BuildableReference>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "LCLabelTests"
+            BuildableName = "LCLabelTests"
+            BlueprintName = "LCLabelTests"
+            ReferencedContainer = "container:..">
+         </BuildableReference>
+      </CodeCoverageTargets>
       <Testables>
          <TestableReference
             skipped = "NO">
