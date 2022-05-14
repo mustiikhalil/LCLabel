@@ -100,6 +100,7 @@ final public class LCLabel: UIView {
   /// it to .lclabelLink
   public var linkStyleValidation: LinksStyleValidation = .skip {
     didSet {
+      setupRenderStorage()
       refreshView()
     }
   }

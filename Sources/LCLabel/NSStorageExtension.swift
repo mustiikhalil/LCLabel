@@ -29,6 +29,7 @@ extension NSTextStorage {
         mergedAttributes[.underlineColor] = UIColor.clear
       }
       if let link = mergedAttributes[.link] {
+        print(link)
         mergedAttributes[.lclabelLink] = link
         mergedAttributes.removeValue(forKey: .link)
       }
@@ -62,7 +63,7 @@ extension NSTextStorage {
       in: textRange,
       options: .longestEffectiveRangeNotRequired)
     { dictionary, range, _ in
-      if dictionary[.link] != nil {
+      if dictionary[.link] != nil || dictionary[.lclabelLink] != nil {
         urlsRange.append(range)
       }
     }
