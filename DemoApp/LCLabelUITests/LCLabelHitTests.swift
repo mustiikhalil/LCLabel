@@ -99,6 +99,29 @@ final class LCLabelHitTests: XCTestCase {
     app.tapCoordinate(at: CGPoint(x: 300, y: 430))
     XCTAssertEqual(main.staticTexts["translator"].label, "https://github.com")
   }
+
+  func testScrollingThrough() {
+    app = XCUIApplication()
+    app.launchArguments = [""]
+    app.launch()
+    let main = app.otherElements["main"]
+    XCTAssertTrue(main.exists)
+    XCTAssertTrue(main.staticTexts["translator"].exists)
+
+    XCTAssertEqual(main.staticTexts["translator"].label, "")
+    app.scrollCoordinate(
+      at: CGPoint(x: 10, y: 400),
+      to: CGPoint(x: 40, y: 430))
+    XCTAssertEqual(
+      main.staticTexts["translator"].label,
+      "")
+    app.scrollCoordinate(
+      at: CGPoint(x: 30, y: 400),
+      to: CGPoint(x: 10, y: 430))
+    XCTAssertEqual(
+      main.staticTexts["translator"].label,
+      "")
+  }
 }
 
 private extension XCUIApplication {
@@ -106,7 +129,20 @@ private extension XCUIApplication {
     let normalized = coordinate(withNormalizedOffset: .zero)
     let offset = CGVector(dx: point.x, dy: point.y)
     let coordinate = normalized.withOffset(offset)
-    print(coordinate)
     coordinate.tap()
+  }
+
+  func scrollCoordinate(
+    at point: CGPoint,
+    to toPoint: CGPoint)
+  {
+    let normalized = coordinate(withNormalizedOffset: .zero)
+    let offset = CGVector(dx: point.x, dy: point.y)
+    let coordinate = normalized.withOffset(offset)
+    let newOffset = CGVector(dx: toPoint.x, dy: toPoint.y)
+    let newCoordinate = normalized.withOffset(newOffset)
+    coordinate.press(
+      forDuration: 0.5,
+      thenDragTo: newCoordinate)
   }
 }
