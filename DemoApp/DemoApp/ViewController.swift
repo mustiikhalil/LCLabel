@@ -70,7 +70,7 @@ final class LCLabelViewController: UIViewController {
       .range(of: "very very long text")
     text.addAttribute(
       .lclabelLink,
-      value: URL(string: "https://github.com")!,
+      value: "https://github.com",
       range: longTextRange)
 
     label4 = labelFactory(

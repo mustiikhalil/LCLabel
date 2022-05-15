@@ -88,6 +88,27 @@ final class LCLabelTests: XCTestCase {
     XCTFail(message)
   }
 
+  func testLongTextWithDifferentLineBreakMode() {
+    let attStr = NSMutableAttributedString(
+      string: "LCLabel is a low cost label with long text that is supposed to trunculate",
+      attributes: [
+        .foregroundColor: UIColor.white,
+        .font: UIFont.systemFont(ofSize: 14),
+      ])
+    let label = createLabel(
+      text: attStr,
+      frame: CGRect(x: 0, y: 0, width: 300, height: 40))
+    label.numberOfLines = 1
+    label.lineBreakMode = .byTruncatingMiddle
+    let failure = verifySnapshot(
+      matching: label,
+      as: .image,
+      snapshotDirectory: path)
+    guard let message = failure else { return }
+    XCTFail(message)
+  }
+
+
   func testTextPadding() {
     let attStr = NSMutableAttributedString(
       string: "LCLabel is a low cost label that can be padded",
@@ -125,6 +146,32 @@ final class LCLabelTests: XCTestCase {
       text: attStr,
       frame: CGRect(x: 0, y: 0, width: 300, height: 40))
     label.numberOfLines = 2
+    let failure = verifySnapshot(
+      matching: label,
+      as: .image,
+      snapshotDirectory: path)
+    guard let message = failure else { return }
+    XCTFail(message)
+  }
+
+  func testLineFragmentPadding() {
+    let attStr = NSMutableAttributedString(
+      string: "LCLabel",
+      attributes: [
+        .foregroundColor: UIColor.white,
+        .font: UIFont.systemFont(ofSize: 14),
+      ])
+    attStr.append(NSAttributedString(
+      string: "\nOpen Source",
+      attributes: [
+        .foregroundColor: UIColor.white,
+        .font: UIFont.systemFont(ofSize: 8),
+      ]))
+    let label = createLabel(
+      text: attStr,
+      frame: CGRect(x: 0, y: 0, width: 300, height: 40))
+    label.lineFragmentPadding = 10
+    label.numberOfLines = 0
     let failure = verifySnapshot(
       matching: label,
       as: .image,
@@ -268,13 +315,13 @@ final class LCLabelTests: XCTestCase {
     label.frame = CGRect(x: 0, y: 0, width: 300, height: 40)
     label.textAlignment = .center
     label.numberOfLines = 2
-    label.shouldExcludeUnderlinesFromText = false
     label.linkStyleValidation = .ensure
     label.linkAttributes = [
       .foregroundColor: UIColor.green,
       .font: UIFont.systemFont(ofSize: 12),
     ]
     label.attributedText = attStr
+    label.shouldExcludeUnderlinesFromText = true
     let text = label.attributedText
     let range = (text!.string as NSString).range(of: "@LCLabel")
     text?.enumerateAttributes(in: range, using: { attr, range, _ in

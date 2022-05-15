@@ -363,7 +363,7 @@ extension LCLabel {
       fractionOfDistanceBetweenInsertionPoints: nil)
     // Get the link from the storage since we know its going to be a
     // .link attribute at an index (x)
-    // (Note): we are using attachment since i couldnt remove the default
+    // (Note): we are using .lclabel since i couldnt remove the default
     // link coloring with TextKit
     guard let url = renderedStorage?.attribute(
       .lclabelLink,
