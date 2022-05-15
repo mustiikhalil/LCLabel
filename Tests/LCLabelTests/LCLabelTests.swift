@@ -400,6 +400,116 @@ final class LCLabelTests: XCTestCase {
     XCTFail(message)
   }
 
+  func testWithinStackView() {
+    let attStr = NSMutableAttributedString(
+      string: "LCLabel",
+      attributes: [
+        .foregroundColor: UIColor.white,
+        .font: UIFont.systemFont(ofSize: 14),
+      ])
+    attStr.append(NSAttributedString(
+      string: "\n@LCLabel",
+      attributes: [
+        .foregroundColor: UIColor.white,
+        .font: UIFont.systemFont(ofSize: 10),
+        .link: "lclabel://welcome",
+      ]))
+    let label = LCLabel(frame: .zero)
+    label.textAlignment = .center
+    label.numberOfLines = 2
+    label.backgroundColor = .green
+    label.linkStyleValidation = .ensure
+    label.linkAttributes = [
+      .foregroundColor: UIColor.green,
+      .font: UIFont.systemFont(ofSize: 12),
+    ]
+    label.attributedText = attStr
+    label.shouldExcludeUnderlinesFromText = true
+    let purpleView = UIView()
+    purpleView.backgroundColor = .systemPurple
+    let stackView = UIStackView(arrangedSubviews: [
+      label,
+      purpleView,
+    ])
+    stackView.distribution = .fillEqually
+    stackView.translatesAutoresizingMaskIntoConstraints = false
+    let view = UIView(
+      frame: CGRect(
+        x: 0,
+        y: 0,
+        width: 300,
+        height: 40))
+    view.addSubview(stackView)
+    view.backgroundColor = .red
+    NSLayoutConstraint.activate([
+      stackView.topAnchor.constraint(equalTo: view.topAnchor),
+      stackView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+      stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+      stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+    ])
+    let failure = verifySnapshot(
+      matching: view,
+      as: .image,
+      snapshotDirectory: path)
+    guard let message = failure else { return }
+    XCTFail(message)
+  }
+
+  func testHiddingView() {
+    let attStr = NSMutableAttributedString(
+      string: "LCLabel",
+      attributes: [
+        .foregroundColor: UIColor.white,
+        .font: UIFont.systemFont(ofSize: 14),
+      ])
+    attStr.append(NSAttributedString(
+      string: "\n@LCLabel",
+      attributes: [
+        .foregroundColor: UIColor.white,
+        .font: UIFont.systemFont(ofSize: 10),
+        .link: "lclabel://welcome",
+      ]))
+    let label = LCLabel(frame: .zero)
+    label.textAlignment = .center
+    label.numberOfLines = 2
+    label.backgroundColor = .green
+    label.linkStyleValidation = .ensure
+    label.linkAttributes = [
+      .foregroundColor: UIColor.green,
+      .font: UIFont.systemFont(ofSize: 12),
+    ]
+    label.attributedText = attStr
+    label.shouldExcludeUnderlinesFromText = true
+    let purpleView = UIView()
+    purpleView.backgroundColor = .systemPurple
+    let stackView = UIStackView(arrangedSubviews: [
+      label,
+      purpleView,
+    ])
+    stackView.translatesAutoresizingMaskIntoConstraints = false
+    let view = UIView(
+      frame: CGRect(
+        x: 0,
+        y: 0,
+        width: 300,
+        height: 40))
+    view.addSubview(stackView)
+    view.backgroundColor = .red
+    NSLayoutConstraint.activate([
+      stackView.topAnchor.constraint(equalTo: view.topAnchor),
+      stackView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+      stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+      stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+    ])
+    label.attributedText = nil
+    let failure = verifySnapshot(
+      matching: view,
+      as: .image,
+      snapshotDirectory: path)
+    guard let message = failure else { return }
+    XCTFail(message)
+  }
+
   private func createLabel(
     text: NSMutableAttributedString,
     frame: CGRect,
