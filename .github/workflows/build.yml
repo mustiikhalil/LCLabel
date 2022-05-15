@@ -27,6 +27,21 @@ jobs:
       with:
         file: cobertura.xml
 
+  notification:
+    name: Notify
+    runs-on: ubuntu-18.04
+    needs: [test]
+    if: always()
+    steps: 
+      - uses: martialonline/workflow-status@v3
+        id: check
+      - run: echo "Workflow failed"
+        if: steps.check.outputs.status == 'failure'
+      - run: echo "Workflow was cancelled"
+        if: steps.check.outputs.status == 'cancelled'
+      - run: echo "Workflow was successful"
+        if: steps.check.outputs.status == 'success'
+
   format:
     name: Format
     runs-on: macos-latest
