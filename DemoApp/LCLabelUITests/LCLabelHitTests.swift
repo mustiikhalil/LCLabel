@@ -8,7 +8,7 @@ import XCTest
 // Screenshots taken on an iPhone 13
 final class LCLabelHitTests: XCTestCase {
 
-  private var app: XCUIApplication!
+  // MARK: Internal
 
   override func setUpWithError() throws {
     continueAfterFailure = false
@@ -122,6 +122,11 @@ final class LCLabelHitTests: XCTestCase {
       main.staticTexts["translator"].label,
       "")
   }
+
+  // MARK: Private
+
+  private var app: XCUIApplication!
+
 }
 
 private extension XCUIApplication {

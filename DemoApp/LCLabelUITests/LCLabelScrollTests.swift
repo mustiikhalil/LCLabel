@@ -8,7 +8,7 @@ import XCTest
 
 final class LCLabelScrollTests: XCTestCase {
 
-  private var app: XCUIApplication!
+  // MARK: Internal
 
   override func setUpWithError() throws {
     continueAfterFailure = false
@@ -50,5 +50,9 @@ final class LCLabelScrollTests: XCTestCase {
     }
   }
 
+
+  // MARK: Private
+
+  private var app: XCUIApplication!
 
 }

@@ -3,7 +3,7 @@
 [![codecov](https://codecov.io/gh/mustiikhalil/LCLabel/branch/main/graph/badge.svg?token=KAH2KVQ5MQ)](https://codecov.io/gh/mustiikhalil/LCLabel)
 ![Build status](https://github.com/mustiikhalil/lclabel/actions/workflows/build.yml/badge.svg?branch=main)
 
-LCLabel is a TextKit 2 based UIView that mimics a the behaviour of UILabel & UITextView
+LCLabel is a TextKit 2 based UILabel that mimics a the behaviour of UITextView
 
 ## Installation
 
@@ -25,8 +25,6 @@ dependencies: [
 ```
 
 ## How to use:
-
-Using LCLabel is as simple as using a UILabel
 
 ```swift
 let text = NSMutableAttributedString(
@@ -128,6 +126,6 @@ where both labels had zero hitches when scrolling a list around 5 times each tim
 
 `LCLabel` is [MIT-licensed](./LICENSE.md).
 
-### Disclamre 
+### Disclaimer 
 
-[UILabel](https://developer.apple.com/documentation/uikit/uilabel/) and [UITextView](https://developer.apple.com/documentation/uikit/uitextview) are Apple's own components. 
+[UILabel](https://developer.apple.com/documentation/uikit/uilabel/) and [UITextView](https://developer.apple.com/documentation/uikit/uitextview) are Apple's own components.

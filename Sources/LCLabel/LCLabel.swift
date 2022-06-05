@@ -14,7 +14,25 @@ public protocol LCLabelDelegate: AnyObject {
 /// LCLabel uses UITextView apis (TextKit) with a low level implemetation
 /// to match UILabel. This enables link detection, and simple text display,
 /// with paddings.
-final public class LCLabel: UIView {
+final public class LCLabel: UILabel {
+
+  // MARK: Lifecycle
+
+  public convenience init() {
+    self.init(frame: .zero)
+  }
+
+  public override init(frame: CGRect) {
+    _accessibilityTraits = .staticText
+    super.init(frame: frame)
+    setupUI()
+  }
+
+  public required init?(coder: NSCoder) {
+    fatalError("Coder init isnt supported here.")
+  }
+
+  // MARK: Public
 
   /// Alignment of the text within LCLabel
   ///
@@ -49,6 +67,10 @@ final public class LCLabel: UIView {
     case nolinks
   }
 
+  /// A LCLabel delegate that responses to link interactions within
+  /// the view
+  public weak var delegate: LCLabelDelegate?
+
   // MARK: - Variables
 
   public override var accessibilityTraits: UIAccessibilityTraits {
@@ -60,16 +82,48 @@ final public class LCLabel: UIView {
     }
   }
 
-  /// A LCLabel delegate that responses to link interactions within
-  /// the view
-  public weak var delegate: LCLabelDelegate?
   public override var frame: CGRect {
     didSet {
       refreshView()
     }
   }
+  /// Currently doesnt support fonts
+  public override var font: UIFont! {
+    get { nil }
+    set { }
+  }
+  /// Currently doesnt support textColor
+  public override var textColor: UIColor! {
+    get { nil }
+    set { }
+  }
+  /// Currently doesnt support textAlignment
+  public override var textAlignment: NSTextAlignment {
+    get { .natural }
+    set { }
+  }
+  /// Number of lines allowed
+  public override var numberOfLines: Int {
+    get {
+      textContainer.maximumNumberOfLines
+    }
+    set {
+      textContainer.maximumNumberOfLines = newValue
+      refreshView()
+    }
+  }
+  /// Line breaking mode the label uses, default is `.byTruncatingTail`
+  public override var lineBreakMode: NSLineBreakMode {
+    get {
+      textContainer.lineBreakMode
+    }
+    set {
+      textContainer.lineBreakMode = newValue
+      refreshView()
+    }
+  }
   /// Text ``Alignment`` within the frame
-  public var textAlignment: LCLabel.Alignment = .center {
+  public var centeringTextAlignment: LCLabel.Alignment = .center {
     didSet {
       refreshView()
     }
@@ -104,26 +158,29 @@ final public class LCLabel: UIView {
       refreshView()
     }
   }
-  /// Line breaking mode the label uses, default is `.byTruncatingTail`
-  public var lineBreakMode: NSLineBreakMode = .byTruncatingTail {
-    didSet {
-      refreshView()
-    }
-  }
   /// Line padding at the beginning of the view
   public var lineFragmentPadding: CGFloat = 0 {
     didSet {
+      textContainer.lineFragmentPadding = lineFragmentPadding
       refreshView()
     }
   }
-  /// Number of lines allowed
-  public var numberOfLines = 1 {
-    didSet {
-      refreshView()
+  /// Returns intrinsicContentSize of the current label
+  public override var intrinsicContentSize: CGSize {
+    guard let text = renderedStorage, !text.string.isEmpty else {
+      return .zero
     }
+    let rect = CGRect(
+      x: 0,
+      y: 0,
+      width: preferredMaxLayoutWidth,
+      height: .greatestFiniteMagnitude)
+    return textRect(
+      forBounds: rect,
+      limitedToNumberOfLines: numberOfLines).size
   }
   /// Text to be displayed
-  public var attributedText: NSAttributedString? {
+  public override var attributedText: NSAttributedString? {
     get {
       renderedStorage
     }
@@ -138,74 +195,29 @@ final public class LCLabel: UIView {
         isHidden = true
       }
       accessibilityIdentifier = newValue?.string
+      renderedStorage?.addLayoutManager(layoutManager)
       setupRenderStorage()
       refreshView()
     }
   }
 
-  /// Current text to be displayed
-  private var renderedStorage: NSTextStorage?
-  private var textContainer: NSTextContainer?
-  private var currentCalculatedFrame: CGRect?
-
-  /// Current LayoutManager
-  private lazy var layoutManager: NSLayoutManager = {
-    let layoutManager = NSLayoutManager()
-    return layoutManager
-  }()
-
-  private var currentlySelectedLink: URL?
-  private var _accessibilityTraits: UIAccessibilityTraits
-
-  // MARK: - Life Cycle
-
-  public convenience init() {
-    self.init(frame: .zero)
-  }
-
-  public override init(frame: CGRect) {
-    _accessibilityTraits = .staticText
-    super.init(frame: frame)
-  }
-
-  public required init?(coder: NSCoder) {
-    fatalError("Coder init isnt supported here.")
-  }
-
   // MARK: - Implementation
 
-  public override func draw(_ rect: CGRect) {
-    super.draw(rect)
-
+  public override func drawText(in rect: CGRect) {
     guard let storage = renderedStorage, !storage.string.isEmpty else
     {
       return
     }
 
-    let bounds = textRect(forBounds: rect)
+    let bounds = textRect(
+      forBounds: rect,
+      limitedToNumberOfLines: numberOfLines)
 
     currentCalculatedFrame = bounds
 
-    let container: NSTextContainer
-    // Check if the current text container is still valid
-    // with the proper size.
-    if let textContainer = textContainer,
-       textContainer.size == bounds.size
-    {
-      container = textContainer
-    } else {
-      // Removes the current text container and replace it with a newer one
-      if !layoutManager.textContainers.isEmpty {
-        layoutManager.removeTextContainer(at: 0)
-      }
-      container = NSTextContainer(size: bounds.size)
-      layoutManager.addTextContainer(container)
-    }
-    container.maximumNumberOfLines = numberOfLines
-    container.lineBreakMode = lineBreakMode
-    container.lineFragmentPadding = lineFragmentPadding
-    storage.addLayoutManager(layoutManager)
-    let range = layoutManager.glyphRange(for: container)
+    textContainer.size = bounds.size
+    let range = layoutManager.glyphRange(
+      for: textContainer)
 
     layoutManager.ensureGlyphs(
       forGlyphRange: range)
@@ -219,7 +231,11 @@ final public class LCLabel: UIView {
       at: bounds.origin)
   }
 
-  private func textRect(forBounds bounds: CGRect) -> CGRect {
+  public override func textRect(
+    forBounds bounds: CGRect,
+    limitedToNumberOfLines numberOfLines: Int)
+    -> CGRect
+  {
     // We inset the bounds with the users textInsets
     var newBounds = bounds.inset(by: textInsets)
     assert(
@@ -228,10 +244,11 @@ final public class LCLabel: UIView {
     guard let text = renderedStorage else {
       return .zero
     }
-
     let calculatedHeight = text.boundingRect(
-      with: newBounds.size, options: .usesLineFragmentOrigin, context: nil)
-    switch textAlignment {
+      with: newBounds.size,
+      options: .usesLineFragmentOrigin,
+      context: nil)
+    switch centeringTextAlignment {
     case .center:
       newBounds.origin.y = (newBounds.height - calculatedHeight.height) / 2
     case .bottom:
@@ -242,9 +259,31 @@ final public class LCLabel: UIView {
     return newBounds
   }
 
+  // MARK: Private
+
+  /// Current text to be displayed
+  private var renderedStorage: NSTextStorage?
+  private lazy var textContainer = NSTextContainer(size: bounds.size)
+  private var currentCalculatedFrame: CGRect?
+
+  /// Current LayoutManager
+  private lazy var layoutManager: NSLayoutManager = {
+    let layoutManager = NSLayoutManager()
+    return layoutManager
+  }()
+
+  private var currentlySelectedLink: URL?
+  private var _accessibilityTraits: UIAccessibilityTraits
+
+  private func setupUI() {
+    textContainer.lineFragmentPadding = 0
+    textContainer.lineBreakMode = .byTruncatingTail
+    textContainer.maximumNumberOfLines = 1
+    layoutManager.addTextContainer(textContainer)
+  }
+
   private func refreshView() {
     setNeedsDisplay()
-    setNeedsLayout()
   }
 
   /// The following functions replaces

@@ -8,6 +8,8 @@ import UIKit
 
 final class CollectionViewController: UIViewController {
 
+  // MARK: Internal
+
   var dataSource: UICollectionViewDiffableDataSource<Int, String>?
   var snapshot: NSDiffableDataSourceSnapshot<Int, String>?
 
@@ -42,19 +44,7 @@ final class CollectionViewController: UIViewController {
     }
   }
 
-  private func makeSnapshot(animatingDifferences: Bool = true) {
-    var snapshot = NSDiffableDataSourceSnapshot<Int, String>()
-    self.snapshot = snapshot
-    snapshot.appendSections([1])
-    snapshot.appendItems(
-      (1...10000).map { "item: \($0) + UUID: \(UUID())" },
-      toSection: 1)
-    DispatchQueue.main.async { [weak self] in
-      self?.dataSource?.apply(
-        snapshot,
-        animatingDifferences: animatingDifferences)
-    }
-  }
+  // MARK: Private
 
   private lazy var collectionView: UICollectionView = {
     let flowLayout = UICollectionViewFlowLayout()
@@ -70,9 +60,26 @@ final class CollectionViewController: UIViewController {
     collectionView.backgroundColor = .white
     return collectionView
   }()
+
+  private func makeSnapshot(animatingDifferences: Bool = true) {
+    var snapshot = NSDiffableDataSourceSnapshot<Int, String>()
+    self.snapshot = snapshot
+    snapshot.appendSections([1])
+    snapshot.appendItems(
+      (1...10000).map { "item: \($0) + UUID: \(UUID())" },
+      toSection: 1)
+    DispatchQueue.main.async { [weak self] in
+      self?.dataSource?.apply(
+        snapshot,
+        animatingDifferences: animatingDifferences)
+    }
+  }
+
 }
 
 private final class CollectionCell: UICollectionViewCell {
+
+  // MARK: Lifecycle
 
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -92,11 +99,15 @@ private final class CollectionCell: UICollectionViewCell {
     fatalError("init(coder:) has not been implemented")
   }
 
+  // MARK: Internal
+
   var text: NSAttributedString? {
     didSet {
       label.attributedText = text
     }
   }
+
+  // MARK: Private
 
   private let label: LCLabel = {
     let label = LCLabel(frame: .zero)
