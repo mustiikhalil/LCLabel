@@ -77,7 +77,7 @@ final class LCLabelViewController: UIViewController {
       frame: CGRect(origin: rect.origin, size: rect.size),
       text: text)
     label4.numberOfLines = 0
-    label4.textAlignment = .center
+    label4.centeringTextAlignment = .center
     label4.delegate = self
 
     rect.origin.y += 100
@@ -99,7 +99,7 @@ final class LCLabelViewController: UIViewController {
     label.linkAttributes = [
       .foregroundColor: UIColor.white,
     ]
-    label.textAlignment = .top
+    label.centeringTextAlignment = .top
     label.isUserInteractionEnabled = true
     label.numberOfLines = 1
     label.attributedText = text

@@ -10,6 +10,8 @@ import XCTest
 // Screenshots taken on an iPhone 13
 final class LCLabelTests: XCTestCase {
 
+  // MARK: Internal
+
   func testTextCenterAlignment() {
     let attStr = NSMutableAttributedString(
       string: "LCLabel is a low cost label",
@@ -40,7 +42,7 @@ final class LCLabelTests: XCTestCase {
       text: attStr,
       frame: CGRect(x: 0, y: 0, width: 300, height: 40))
     label.numberOfLines = 1
-    label.textAlignment = .top
+    label.centeringTextAlignment = .top
     let failure = verifySnapshot(
       matching: label,
       as: .image,
@@ -60,7 +62,7 @@ final class LCLabelTests: XCTestCase {
       text: attStr,
       frame: CGRect(x: 0, y: 0, width: 300, height: 40))
     label.numberOfLines = 1
-    label.textAlignment = .bottom
+    label.centeringTextAlignment = .bottom
     let failure = verifySnapshot(
       matching: label,
       as: .image,
@@ -80,6 +82,7 @@ final class LCLabelTests: XCTestCase {
       text: attStr,
       frame: CGRect(x: 0, y: 0, width: 300, height: 40))
     label.numberOfLines = 1
+    label.lineBreakMode = .byTruncatingTail
     let failure = verifySnapshot(
       matching: label,
       as: .image,
@@ -247,7 +250,7 @@ final class LCLabelTests: XCTestCase {
       ]))
     let label = LCLabel(frame: .zero)
     label.frame = CGRect(x: 0, y: 0, width: 300, height: 40)
-    label.textAlignment = .center
+    label.centeringTextAlignment = .center
     label.numberOfLines = 2
     label.linkStyleValidation = .ensure
     label.attributedText = attStr
@@ -279,7 +282,7 @@ final class LCLabelTests: XCTestCase {
       ]))
     let label = LCLabel(frame: .zero)
     label.frame = CGRect(x: 0, y: 0, width: 300, height: 40)
-    label.textAlignment = .center
+    label.centeringTextAlignment = .center
     label.numberOfLines = 2
     label.linkStyleValidation = .ensure
     label.linkAttributes = [
@@ -313,13 +316,14 @@ final class LCLabelTests: XCTestCase {
       ]))
     let label = LCLabel(frame: .zero)
     label.frame = CGRect(x: 0, y: 0, width: 300, height: 40)
-    label.textAlignment = .center
+    label.centeringTextAlignment = .center
     label.numberOfLines = 2
     label.linkStyleValidation = .ensure
     label.linkAttributes = [
       .foregroundColor: UIColor.green,
       .font: UIFont.systemFont(ofSize: 12),
     ]
+    label.backgroundColor = .black
     label.attributedText = attStr
     label.shouldExcludeUnderlinesFromText = true
     let text = label.attributedText
@@ -352,7 +356,7 @@ final class LCLabelTests: XCTestCase {
       ]))
     let label = LCLabel(frame: .zero)
     label.frame = CGRect(x: 0, y: 0, width: 300, height: 40)
-    label.textAlignment = .center
+    label.centeringTextAlignment = .center
     label.numberOfLines = 2
     label.shouldExcludeUnderlinesFromText = false
     label.linkStyleValidation = .skip
@@ -360,6 +364,7 @@ final class LCLabelTests: XCTestCase {
       .foregroundColor: UIColor.green,
       .font: UIFont.systemFont(ofSize: 12),
     ]
+    label.backgroundColor = .black
     label.attributedText = attStr
     let failure = verifySnapshot(
       matching: label,
@@ -415,7 +420,7 @@ final class LCLabelTests: XCTestCase {
         .link: "lclabel://welcome",
       ]))
     let label = LCLabel(frame: .zero)
-    label.textAlignment = .center
+    label.centeringTextAlignment = .center
     label.numberOfLines = 2
     label.backgroundColor = .green
     label.linkStyleValidation = .ensure
@@ -470,7 +475,7 @@ final class LCLabelTests: XCTestCase {
         .link: "lclabel://welcome",
       ]))
     let label = LCLabel(frame: .zero)
-    label.textAlignment = .center
+    label.centeringTextAlignment = .center
     label.numberOfLines = 2
     label.backgroundColor = .green
     label.linkStyleValidation = .ensure
@@ -510,6 +515,8 @@ final class LCLabelTests: XCTestCase {
     XCTFail(message)
   }
 
+  // MARK: Private
+
   private func createLabel(
     text: NSMutableAttributedString,
     frame: CGRect,
@@ -518,10 +525,11 @@ final class LCLabelTests: XCTestCase {
   {
     let label = LCLabel(frame: .zero)
     label.frame = frame
-    label.textAlignment = alignment
+    label.centeringTextAlignment = alignment
     label.isUserInteractionEnabled = true
     label.numberOfLines = 1
     label.attributedText = text
+    label.backgroundColor = .black
     return label
   }
 }
