@@ -1,0 +1,336 @@
+{
+  "cohesion" : "85.22%",
+  "meets_threshold" : true,
+  "minimum_threshold" : "80%",
+  "report_date" : "2022-06-12 12:46:18 AM",
+  "result" : [
+    {
+      "cohesion" : "100.00%",
+      "definitions" : [
+        {
+          "cohesion" : "100.00",
+          "methods" : [
+
+          ],
+          "name" : "CGRect ",
+          "properties" : [
+
+          ],
+          "type" : "Extension"
+        }
+      ],
+      "filename" : "Sources/LCLabel/Utils.swift",
+      "meets_threshold" : true
+    },
+    {
+      "cohesion" : "100.00%",
+      "definitions" : [
+        {
+          "cohesion" : "100.00",
+          "methods" : [
+
+          ],
+          "name" : "NSAttributedString",
+          "properties" : [
+
+          ],
+          "type" : "Extension"
+        },
+        {
+          "cohesion" : "100.00",
+          "methods" : [
+            {
+              "cohesion" : "100.00",
+              "methodType" : "Public",
+              "name" : "setupStorageWith( linkAttributes: [NSAttributedString.Key: Any], shouldExcludeUnderlinesFromText: Bool) ",
+              "properties" : [
+
+              ]
+            },
+            {
+              "cohesion" : "100.00",
+              "methodType" : "Public",
+              "name" : "replaceLinkWithLCLinkAttribute() ",
+              "properties" : [
+
+              ]
+            }
+          ],
+          "name" : "NSTextStorage ",
+          "properties" : [
+
+          ],
+          "type" : "Extension"
+        }
+      ],
+      "filename" : "Sources/LCLabel/NSStorageExtension.swift",
+      "meets_threshold" : true
+    },
+    {
+      "cohesion" : "55.67%",
+      "definitions" : [
+        {
+          "cohesion" : "33.33",
+          "methods" : [
+            {
+              "cohesion" : "100.00",
+              "methodType" : "Public",
+              "name" : "hitTest( _ point: CGPoint, with event: UIEvent?) -> UIView? ",
+              "properties" : [
+                {
+                  "keyword" : "let",
+                  "name" : "link",
+                  "propertyType" : "instance"
+                }
+              ]
+            },
+            {
+              "cohesion" : "100.00",
+              "methodType" : "Public",
+              "name" : "touchesBegan( _ touches: Set<UITouch>, with event: UIEvent?) ",
+              "properties" : [
+
+              ]
+            },
+            {
+              "cohesion" : "100.00",
+              "methodType" : "Public",
+              "name" : "touchesMoved( _ touches: Set<UITouch>, with event: UIEvent?) ",
+              "properties" : [
+
+              ]
+            },
+            {
+              "cohesion" : "100.00",
+              "methodType" : "Public",
+              "name" : "touchesEnded( _ touches: Set<UITouch>, with event: UIEvent?) ",
+              "properties" : [
+
+              ]
+            },
+            {
+              "cohesion" : "100.00",
+              "methodType" : "Public",
+              "name" : "touchesCancelled( _ touches: Set<UITouch>, with event: UIEvent?) ",
+              "properties" : [
+
+              ]
+            },
+            {
+              "cohesion" : "100.00",
+              "methodType" : "Private",
+              "name" : "linkAt(_ touches: Set<UITouch>) -> URL? ",
+              "properties" : [
+
+              ]
+            },
+            {
+              "cohesion" : "100.00",
+              "methodType" : "Private",
+              "name" : "getLink(at point: CGPoint) -> URL? ",
+              "properties" : [
+                {
+                  "keyword" : "let",
+                  "name" : "_point",
+                  "propertyType" : "instance"
+                },
+                {
+                  "keyword" : "let",
+                  "name" : "index",
+                  "propertyType" : "instance"
+                }
+              ]
+            }
+          ],
+          "name" : "LCLabel ",
+          "properties" : [
+
+          ],
+          "type" : "Extension"
+        },
+        {
+          "cohesion" : "78.01",
+          "methods" : [
+            {
+              "cohesion" : "16.67",
+              "methodType" : "Public",
+              "name" : "drawText(in rect: CGRect) ",
+              "properties" : [
+                {
+                  "keyword" : "let",
+                  "name" : "bounds",
+                  "propertyType" : "instance"
+                },
+                {
+                  "keyword" : "let",
+                  "name" : "range",
+                  "propertyType" : "instance"
+                }
+              ]
+            },
+            {
+              "cohesion" : "20.83",
+              "methodType" : "Public",
+              "name" : "textRect( forBounds bounds: CGRect, limitedToNumberOfLines numberOfLines: Int) -> CGRect ",
+              "properties" : [
+                {
+                  "keyword" : "var",
+                  "name" : "newBounds",
+                  "propertyType" : "instance"
+                },
+                {
+                  "keyword" : "let",
+                  "name" : "calculatedHeight",
+                  "propertyType" : "instance"
+                }
+              ]
+            },
+            {
+              "cohesion" : "4.55",
+              "methodType" : "Private",
+              "name" : "setupUI() ",
+              "properties" : [
+
+              ]
+            },
+            {
+              "cohesion" : "0.00",
+              "methodType" : "Private",
+              "name" : "refreshView() ",
+              "properties" : [
+
+              ]
+            },
+            {
+              "cohesion" : "18.18",
+              "methodType" : "Private",
+              "name" : "setupRenderStorage() ",
+              "properties" : [
+
+              ]
+            }
+          ],
+          "name" : "LCLabel",
+          "properties" : [
+            {
+              "keyword" : "var",
+              "name" : "delegate",
+              "propertyType" : "instance"
+            },
+            {
+              "keyword" : "var",
+              "name" : "override",
+              "propertyType" : "instance"
+            },
+            {
+              "keyword" : "var",
+              "name" : "override",
+              "propertyType" : "instance"
+            },
+            {
+              "keyword" : "var",
+              "name" : "override",
+              "propertyType" : "instance"
+            },
+            {
+              "keyword" : "var",
+              "name" : "override",
+              "propertyType" : "instance"
+            },
+            {
+              "keyword" : "var",
+              "name" : "override",
+              "propertyType" : "instance"
+            },
+            {
+              "keyword" : "var",
+              "name" : "override",
+              "propertyType" : "instance"
+            },
+            {
+              "keyword" : "var",
+              "name" : "override",
+              "propertyType" : "instance"
+            },
+            {
+              "keyword" : "var",
+              "name" : "centeringTextAlignment",
+              "propertyType" : "instance"
+            },
+            {
+              "keyword" : "var",
+              "name" : "textInsets",
+              "propertyType" : "instance"
+            },
+            {
+              "keyword" : "var",
+              "name" : "linkAttributes",
+              "propertyType" : "instance"
+            },
+            {
+              "keyword" : "var",
+              "name" : "shouldExcludeUnderlinesFromText",
+              "propertyType" : "instance"
+            },
+            {
+              "keyword" : "var",
+              "name" : "linkStyleValidation",
+              "propertyType" : "instance"
+            },
+            {
+              "keyword" : "var",
+              "name" : "lineFragmentPadding",
+              "propertyType" : "instance"
+            },
+            {
+              "keyword" : "let",
+              "name" : "override",
+              "propertyType" : "instance"
+            },
+            {
+              "keyword" : "let",
+              "name" : "override",
+              "propertyType" : "instance"
+            },
+            {
+              "keyword" : "var",
+              "name" : "renderedStorage",
+              "propertyType" : "private"
+            },
+            {
+              "keyword" : "var",
+              "name" : "lazy",
+              "propertyType" : "private"
+            },
+            {
+              "keyword" : "var",
+              "name" : "currentCalculatedFrame",
+              "propertyType" : "private"
+            },
+            {
+              "keyword" : "let",
+              "name" : "lazy",
+              "propertyType" : "private"
+            },
+            {
+              "keyword" : "var",
+              "name" : "currentlySelectedLink",
+              "propertyType" : "private"
+            },
+            {
+              "keyword" : "var",
+              "name" : "_accessibilityTraits",
+              "propertyType" : "private"
+            }
+          ],
+          "type" : "Class"
+        }
+      ],
+      "filename" : "Sources/LCLabel/LCLabel.swift",
+      "meets_threshold" : false
+    }
+  ],
+  "sources" : [
+    "./Sources/"
+  ]
+}
