@@ -2,6 +2,7 @@
 
 [![codecov](https://codecov.io/gh/mustiikhalil/LCLabel/branch/main/graph/badge.svg?token=KAH2KVQ5MQ)](https://codecov.io/gh/mustiikhalil/LCLabel)
 ![Build status](https://github.com/mustiikhalil/lclabel/actions/workflows/build.yml/badge.svg?branch=main)
+[![Cohesion](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/mustiikhalil/lclabel/badge/reports/coherent-badge.json)](BADGE.md)
 
 LCLabel is a TextKit 2 based UILabel that mimics a the behaviour of UITextView
 

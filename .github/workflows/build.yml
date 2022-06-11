@@ -51,3 +51,11 @@ jobs:
       run: brew install swiftformat
     - name: Format
       run: swiftformat --config swift.swiftformat . --lint
+
+  coherent:
+    name: Coherent
+    runs-on: macos-latest
+    steps:
+      - name: coherent-swift
+        uses: arthurpalves/coherent-swift@0.5.11
+        run: coherent-swift
