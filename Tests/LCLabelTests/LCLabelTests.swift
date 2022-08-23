@@ -460,6 +460,81 @@ final class LCLabelTests: XCTestCase {
     XCTFail(message)
   }
 
+  func testWithinVerticalStackView() {
+    let text = """
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Aliquet bibendum enim facilisis gravida neque. Orci a scelerisque purus semper eget duis at. Viverra justo nec ultrices dui sapien eget mi proin. Etiam non quam lacus suspendisse faucibus. Vel fringilla est ullamcorper eget nulla facilisi etiam. Donec enim diam vulputate ut pharetra sit amet aliquam id. Ipsum faucibus vitae aliquet nec ullamcorper sit amet risus. Ultrices gravida dictum fusce ut. Nulla aliquet porttitor lacus luctus accumsan tortor posuere ac. Turpis egestas sed tempus urna et pharetra. Pellentesque nec nam aliquam sem et tortor consequat. Risus sed vulputate odio ut enim blandit volutpat maecenas. Ullamcorper velit sed ullamcorper morbi tincidunt ornare massa. Blandit massa enim nec dui nunc mattis enim ut. Tristique sollicitudin nibh sit amet.
+    """
+    let attStr = NSMutableAttributedString(
+      string: "LCLabel",
+      attributes: [
+        .foregroundColor: UIColor.white,
+        .font: UIFont.systemFont(ofSize: 14),
+      ])
+    attStr.append(NSAttributedString(
+      string: "\n@LCLabel",
+      attributes: [
+        .foregroundColor: UIColor.white,
+        .font: UIFont.systemFont(ofSize: 10),
+        .link: "lclabel://welcome",
+      ]))
+    let label = LCLabel(frame: .zero)
+    label.centeringTextAlignment = .top
+    label.backgroundColor = .green
+    label.linkStyleValidation = .ensure
+    label.linkAttributes = [
+      .foregroundColor: UIColor.blue,
+      .font: UIFont.systemFont(ofSize: 12),
+    ]
+    label.shouldExcludeUnderlinesFromText = true
+    label.numberOfLines = 3
+    label.attributedText = attStr
+
+    let label2 = LCLabel(frame: .zero)
+    label2.centeringTextAlignment = .top
+    label2.backgroundColor = .purple
+    label2.linkStyleValidation = .ensure
+    label2.linkAttributes = [
+      .foregroundColor: UIColor.red,
+      .font: UIFont.systemFont(ofSize: 12),
+    ]
+    label2.shouldExcludeUnderlinesFromText = true
+    label2.numberOfLines = 0
+    label2.attributedText = NSAttributedString(
+      string: text,
+      attributes: [
+        .foregroundColor: UIColor.white,
+        .font: UIFont.systemFont(ofSize: 14),
+      ])
+
+    label.setContentHuggingPriority(.required, for: .vertical)
+    label2.setContentCompressionResistancePriority(.required, for: .vertical)
+
+    let stackView = UIStackView(arrangedSubviews: [label, label2])
+    stackView.distribution = .fillProportionally
+    stackView.axis = .vertical
+    stackView.translatesAutoresizingMaskIntoConstraints = false
+    let view = UIView(
+      frame: CGRect(
+        x: 0,
+        y: 0,
+        width: 300,
+        height: 300))
+    view.addSubview(stackView)
+    view.backgroundColor = .red
+    NSLayoutConstraint.activate([
+      stackView.topAnchor.constraint(equalTo: view.topAnchor),
+      stackView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+      stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+      stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+    ])
+    let failure = verifySnapshot(
+      matching: view,
+      as: .image,
+      snapshotDirectory: path)
+    guard let message = failure else { return }
+    XCTFail(message)
+  }
+
   func testHiddingView() {
     let attStr = NSMutableAttributedString(
       string: "LCLabel",
