@@ -238,21 +238,21 @@ final public class LCLabel: UILabel {
       "The new bounds are negative with isnt allowed, check the frame or the textInsets")
     textContainer.size = newBounds.size
     layoutManager.ensureLayout(for: textContainer)
-    let calculatedValues = layoutManager.usedRect(for: textContainer)
+    let drawableFrame = layoutManager.usedRect(for: textContainer)
     switch centeringTextAlignment {
     case .center:
       newBounds.origin
-        .y = floor((newBounds.height - calculatedValues.height) / 2)
+        .y = floor((newBounds.height - drawableFrame.height) / 2)
     case .bottom:
-      newBounds.origin.y = (newBounds.height - calculatedValues.height)
+      newBounds.origin.y = (newBounds.height - drawableFrame.height)
     case .top:
       break
     }
     return CGRect(
-      x: newBounds.origin.x,
-      y: newBounds.origin.y,
-      width: calculatedValues.width,
-      height: calculatedValues.height)
+      x: newBounds.origin.x + drawableFrame.origin.x,
+      y: newBounds.origin.y + drawableFrame.origin.y,
+      width: drawableFrame.width,
+      height: drawableFrame.height)
   }
 
   // MARK: Private

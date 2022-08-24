@@ -31,6 +31,29 @@ final class LCLabelTests: XCTestCase {
     XCTFail(message)
   }
 
+  func testCenterTextAlignment() {
+    let paragraph = NSMutableParagraphStyle()
+    paragraph.alignment = .center
+
+    let attStr = NSMutableAttributedString(
+      string: "LCLabel is a low cost label",
+      attributes: [
+        .foregroundColor: UIColor.white,
+        .font: UIFont.systemFont(ofSize: 14),
+        .paragraphStyle: paragraph,
+      ])
+    let label = createLabel(
+      text: attStr,
+      frame: CGRect(x: 0, y: 0, width: 300, height: 40))
+    label.numberOfLines = 1
+    let failure = verifySnapshot(
+      matching: label,
+      as: .image,
+      snapshotDirectory: path)
+    guard let message = failure else { return }
+    XCTFail(message)
+  }
+
   func testTextTopAlignment() {
     let attStr = NSMutableAttributedString(
       string: "LCLabel is a low cost label",
