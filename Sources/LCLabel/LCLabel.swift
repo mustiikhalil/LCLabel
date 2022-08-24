@@ -167,17 +167,10 @@ final public class LCLabel: UILabel {
   }
   /// Returns intrinsicContentSize of the current label
   public override var intrinsicContentSize: CGSize {
-    guard let text = renderedStorage, !text.string.isEmpty else {
-      return .zero
-    }
-    let rect = CGRect(
-      x: 0,
-      y: 0,
-      width: preferredMaxLayoutWidth,
-      height: .greatestFiniteMagnitude)
-    return textRect(
-      forBounds: rect,
-      limitedToNumberOfLines: numberOfLines).size
+    textContainer.size = bounds.size
+    layoutManager.ensureLayout(for: textContainer)
+    let rect = layoutManager.usedRect(for: textContainer)
+    return rect.size
   }
   /// Text to be displayed
   public override var attributedText: NSAttributedString? {
@@ -229,6 +222,8 @@ final public class LCLabel: UILabel {
     layoutManager.drawGlyphs(
       forGlyphRange: range,
       at: bounds.origin)
+
+    invalidateIntrinsicContentSize()
   }
 
   public override func textRect(
@@ -241,22 +236,23 @@ final public class LCLabel: UILabel {
     assert(
       !newBounds.isNegative,
       "The new bounds are negative with isnt allowed, check the frame or the textInsets")
-    guard let text = renderedStorage else {
-      return .zero
-    }
-    let calculatedHeight = text.boundingRect(
-      with: newBounds.size,
-      options: .usesLineFragmentOrigin,
-      context: nil)
+    textContainer.size = newBounds.size
+    layoutManager.ensureLayout(for: textContainer)
+    let calculatedValues = layoutManager.usedRect(for: textContainer)
     switch centeringTextAlignment {
     case .center:
-      newBounds.origin.y = (newBounds.height - calculatedHeight.height) / 2
+      newBounds.origin
+        .y = floor((newBounds.height - calculatedValues.height) / 2)
     case .bottom:
-      newBounds.origin.y = (newBounds.height - calculatedHeight.height)
+      newBounds.origin.y = (newBounds.height - calculatedValues.height)
     case .top:
       break
     }
-    return newBounds
+    return CGRect(
+      x: newBounds.origin.x,
+      y: newBounds.origin.y,
+      width: calculatedValues.width,
+      height: calculatedValues.height)
   }
 
   // MARK: Private
@@ -284,6 +280,7 @@ final public class LCLabel: UILabel {
 
   private func refreshView() {
     setNeedsDisplay()
+    invalidateIntrinsicContentSize()
   }
 
   /// The following functions replaces
