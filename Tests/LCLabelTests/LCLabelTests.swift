@@ -27,6 +27,7 @@ final class LCLabelTests: XCTestCase {
       matching: label,
       as: .image,
       snapshotDirectory: path)
+    XCTAssertEqual(attStr.string, label.accessibilityIdentifier)
     guard let message = failure else { return }
     XCTFail(message)
   }
@@ -363,6 +364,64 @@ final class LCLabelTests: XCTestCase {
     XCTFail(message)
   }
 
+  func testTextString() {
+    let label = LCLabel(frame: .zero)
+    label.frame = CGRect(x: 0, y: 0, width: 300, height: 40)
+    label.centeringTextAlignment = .center
+    label.numberOfLines = 1
+    label.backgroundColor = .black
+    label.text = "Welcome"
+    label.textColor = .red
+    label.textAlignment = .center
+    label.font = .systemFont(ofSize: 10)
+    let failure = verifySnapshot(
+      matching: label,
+      as: .image,
+      snapshotDirectory: path)
+    guard let message = failure else { return }
+    XCTFail(message)
+  }
+
+  func testMultiLineTextString() {
+    let label = LCLabel(frame: .zero)
+    label.frame = CGRect(x: 0, y: 0, width: 300, height: 40)
+    label.centeringTextAlignment = .center
+    label.numberOfLines = 2
+    label.backgroundColor = .black
+    label
+      .text =
+      "Welcome to a very long long text that should be added to two different lines"
+    label.textColor = .red
+    label.textAlignment = .center
+    label.font = .systemFont(ofSize: 10)
+    let failure = verifySnapshot(
+      matching: label,
+      as: .image,
+      snapshotDirectory: path)
+    guard let message = failure else { return }
+    XCTFail(message)
+  }
+
+  func testMultiLinePreSetupTextString() {
+    let label = LCLabel(frame: .zero)
+    label.frame = CGRect(x: 0, y: 0, width: 300, height: 40)
+    label.centeringTextAlignment = .center
+    label.numberOfLines = 2
+    label.backgroundColor = .black
+    label.textColor = .red
+    label.font = .systemFont(ofSize: 10)
+    label.textAlignment = .center
+    label
+      .text =
+      "Welcome to a very long long text that should be added to two different lines"
+    let failure = verifySnapshot(
+      matching: label,
+      as: .image,
+      snapshotDirectory: path)
+    guard let message = failure else { return }
+    XCTFail(message)
+  }
+
   func testStringWithoutValidations() {
     let attStr = NSMutableAttributedString(
       string: "LCLabel",
@@ -611,6 +670,66 @@ final class LCLabelTests: XCTestCase {
       snapshotDirectory: path)
     guard let message = failure else { return }
     XCTFail(message)
+  }
+
+  func testURLHitTest() {
+    let attStr = NSMutableAttributedString(
+      string: "LCLabel",
+      attributes: [
+        .foregroundColor: UIColor.white,
+        .font: UIFont.systemFont(ofSize: 14),
+      ])
+    attStr.append(NSAttributedString(
+      string: "\n@LCLabel",
+      attributes: [
+        .foregroundColor: UIColor.white,
+        .font: UIFont.systemFont(ofSize: 10),
+        .link: URL(string: "lclabel://welcome")!,
+      ]))
+    let rect = CGRect(x: 0, y: 0, width: 300, height: 40)
+    let label = LCLabel(frame: .zero)
+    label.isUserInteractionEnabled = true
+    label.frame = rect
+    label.centeringTextAlignment = .center
+    label.numberOfLines = 2
+    label.linkStyleValidation = .ensure
+    label.linkAttributes = [
+      .foregroundColor: UIColor.green,
+      .font: UIFont.systemFont(ofSize: 12),
+    ]
+    label.attributedText = attStr
+    label.drawText(in: rect)
+    XCTAssertEqual(label.hitTest(CGPoint(x: 20, y: 25), with: nil), label)
+  }
+
+  func testStringHitTest() {
+    let attStr = NSMutableAttributedString(
+      string: "LCLabel",
+      attributes: [
+        .foregroundColor: UIColor.white,
+        .font: UIFont.systemFont(ofSize: 14),
+      ])
+    attStr.append(NSAttributedString(
+      string: "\n@LCLabel",
+      attributes: [
+        .foregroundColor: UIColor.white,
+        .font: UIFont.systemFont(ofSize: 10),
+        .link: "lclabel://welcome",
+      ]))
+    let rect = CGRect(x: 0, y: 0, width: 300, height: 40)
+    let label = LCLabel(frame: .zero)
+    label.isUserInteractionEnabled = true
+    label.frame = rect
+    label.centeringTextAlignment = .center
+    label.numberOfLines = 2
+    label.linkStyleValidation = .ensure
+    label.linkAttributes = [
+      .foregroundColor: UIColor.green,
+      .font: UIFont.systemFont(ofSize: 12),
+    ]
+    label.attributedText = attStr
+    label.drawText(in: rect)
+    XCTAssertEqual(label.hitTest(CGPoint(x: 20, y: 25), with: nil), label)
   }
 
   // MARK: Private
