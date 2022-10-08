@@ -87,20 +87,78 @@ final public class LCLabel: UILabel {
       refreshView()
     }
   }
-  /// Currently doesnt support fonts
+
+  public override var text: String? {
+    get {
+      renderedStorage?.string
+    }
+    set {
+      currentlySelectedLink = nil
+      // Removes the current text container since we are resetting it
+      if let text = newValue {
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.alignment = textAlignment
+        renderedStorage = NSTextStorage(
+          string: text,
+          attributes: [
+            .font: font ?? .systemFont(ofSize: 17),
+            .foregroundColor: textColor ?? .black,
+            .paragraphStyle: paragraphStyle,
+          ])
+        isHidden = false
+      } else {
+        renderedStorage = nil
+        isHidden = true
+      }
+      renderedStorage?.addLayoutManager(layoutManager)
+      setupRenderStorage()
+      refreshView()
+    }
+  }
   public override var font: UIFont! {
-    get { nil }
-    set { }
+    get {
+      super.font
+    }
+    set {
+      super.font = newValue
+      if let value = newValue {
+        renderedStorage?.addAttribute(
+          .font,
+          value: value,
+          range: textRange)
+      }
+      refreshView()
+    }
   }
-  /// Currently doesnt support textColor
   public override var textColor: UIColor! {
-    get { nil }
-    set { }
+    get {
+      super.textColor
+    }
+    set {
+      super.textColor = newValue
+      if let value = newValue {
+        renderedStorage?.addAttribute(
+          .foregroundColor,
+          value: value,
+          range: textRange)
+      }
+      refreshView()
+    }
   }
-  /// Currently doesnt support textAlignment
   public override var textAlignment: NSTextAlignment {
-    get { .natural }
-    set { }
+    get {
+      super.textAlignment
+    }
+    set {
+      super.textAlignment = newValue
+      let paragraphStyle = NSMutableParagraphStyle()
+      paragraphStyle.alignment = textAlignment
+      renderedStorage?.addAttribute(
+        .paragraphStyle,
+        value: paragraphStyle,
+        range: textRange)
+      refreshView()
+    }
   }
   /// Number of lines allowed
   public override var numberOfLines: Int {
@@ -270,6 +328,10 @@ final public class LCLabel: UILabel {
 
   private var currentlySelectedLink: URL?
   private var _accessibilityTraits: UIAccessibilityTraits
+
+  private var textRange: NSRange {
+    NSRange(location: 0, length: renderedStorage?.length ?? 0)
+  }
 
   private func setupUI() {
     textContainer.lineFragmentPadding = 0
