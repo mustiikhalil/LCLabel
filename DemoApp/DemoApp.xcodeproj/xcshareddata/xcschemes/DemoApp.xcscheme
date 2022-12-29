@@ -95,6 +95,10 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
+            argument = "-autolayout"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
             argument = "-scrollview -cellnumbers"
             isEnabled = "NO">
          </CommandLineArgument>

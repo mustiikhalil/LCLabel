@@ -23,6 +23,8 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     window?.makeKeyAndVisible()
     if CommandLine.arguments.contains("-scrollview") {
       window?.rootViewController = CollectionViewController()
+    } else if CommandLine.arguments.contains("-autolayout") {
+      window?.rootViewController = AutoLayoutLCLabelViewController()
     } else {
       window?.rootViewController = LCLabelViewController()
     }
