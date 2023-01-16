@@ -7,7 +7,7 @@ import LCLabel
 import SnapshotTesting
 import XCTest
 
-// Screenshots taken on an iPhone 13
+// Screenshots taken on an iPhone 13 iOS 15.0
 final class LCLabelTests: XCTestCase {
 
   // MARK: Internal
@@ -536,6 +536,92 @@ final class LCLabelTests: XCTestCase {
     ])
     let failure = verifySnapshot(
       matching: view,
+      as: .image,
+      snapshotDirectory: path)
+    guard let message = failure else { return }
+    XCTFail(message)
+  }
+
+  func testWithinStackViewWithBottomAnchor() {
+    let attStr = NSMutableAttributedString(
+      string: "LCLabel",
+      attributes: [
+        .foregroundColor: UIColor.white,
+        .font: UIFont.systemFont(ofSize: 14),
+      ])
+    attStr.append(NSAttributedString(
+      string: "\n@LCLabel",
+      attributes: [
+        .foregroundColor: UIColor.white,
+        .font: UIFont.systemFont(ofSize: 10),
+        .link: "lclabel://welcome",
+      ]))
+    let label = LCLabel()
+    label.centeringTextAlignment = .center
+    label.numberOfLines = 0
+    label.backgroundColor = .black
+    label.attributedText = attStr
+    let stackView = UIStackView(arrangedSubviews: [
+      label,
+    ])
+    stackView.axis = .vertical
+    stackView.translatesAutoresizingMaskIntoConstraints = false
+    let view = UIView(
+      frame: CGRect(
+        x: 0,
+        y: 0,
+        width: 390,
+        height: 300))
+    view.addSubview(stackView)
+    view.backgroundColor = .red
+    NSLayoutConstraint.activate([
+      stackView.topAnchor.constraint(equalTo: view.topAnchor),
+      stackView.bottomAnchor.constraint(
+        lessThanOrEqualTo: view.bottomAnchor,
+        constant: -20),
+      stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+      stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+    ])
+    let failure = verifySnapshot(
+      matching: view,
+      as: .image,
+      snapshotDirectory: path)
+    guard let message = failure else { return }
+    XCTFail(message)
+  }
+
+  func testLongTextAutolayout() {
+    let text = """
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Aliquet bibendum enim facilisis gravida neque. Orci a scelerisque purus semper eget duis at. Viverra justo nec ultrices dui sapien eget mi proin. Etiam non quam lacus suspendisse faucibus. Vel fringilla est ullamcorper eget nulla facilisi etiam. Donec enim diam vulputate ut pharetra sit amet aliquam id. Ipsum faucibus vitae aliquet nec ullamcorper sit amet risus. Ultrices gravida dictum fusce ut. Nulla aliquet porttitor lacus luctus accumsan tortor posuere ac.
+    """
+    let attr: [NSAttributedString.Key: Any] = [
+      .foregroundColor: UIColor.white,
+      .font: UIFont.systemFont(ofSize: 14),
+    ]
+    let attStr = NSMutableAttributedString(
+      string: text,
+      attributes: attr)
+
+    let label = createLabel(
+      text: attStr,
+      frame: .zero)
+    label.numberOfLines = 0
+    label.translatesAutoresizingMaskIntoConstraints = false
+    let superview = UIView(frame: CGRect(x: 0, y: 0, width: 300, height: 300))
+    superview.backgroundColor = .purple
+    superview.addSubview(label)
+    NSLayoutConstraint.activate([
+      label.topAnchor.constraint(equalTo: superview.topAnchor),
+      label.leadingAnchor.constraint(equalTo: superview.leadingAnchor),
+      label.trailingAnchor.constraint(equalTo: superview.trailingAnchor),
+      label.bottomAnchor.constraint(lessThanOrEqualTo: superview.bottomAnchor),
+    ])
+    label.setContentCompressionResistancePriority(.required, for: .vertical)
+
+    superview.setNeedsLayout()
+    superview.layoutIfNeeded()
+    let failure = verifySnapshot(
+      matching: superview,
       as: .image,
       snapshotDirectory: path)
     guard let message = failure else { return }

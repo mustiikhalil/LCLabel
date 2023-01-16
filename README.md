@@ -94,6 +94,7 @@ open package.swift
   3. UI Full Tests // UITests that includes hitches tests
  
 - `DemoApp` explains how to use LCLabel
+- `DemoApp` can be ran in three modes, `-scrollview`, `-autolayout` and `default`. You will need to pass the arguments as `Arguments Passed On Launch`
 - `UI Full Tests` shows that LCLabel doesnt have any hitches
   *The following was compared on an iPhone xs with a baseline of UILabel*
 

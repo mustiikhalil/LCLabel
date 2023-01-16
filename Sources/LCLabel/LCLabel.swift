@@ -225,9 +225,24 @@ final public class LCLabel: UILabel {
   }
   /// Returns intrinsicContentSize of the current label
   public override var intrinsicContentSize: CGSize {
-    textContainer.size = bounds.size
+    let size: CGSize
+    // Getting the width of the current window, or the width
+    // of the super view since `window?.windowScene` will be nil
+    // if superview is set.
+    let width = window?.windowScene?.screen.bounds.width ??
+      superview?.bounds.width
+    if let width = width {
+      size = CGSize(
+        width: width,
+        height: .infinity)
+    } else {
+      size = bounds.size
+    }
+    textContainer.maximumNumberOfLines = numberOfLines
+    textContainer.size = size
     layoutManager.ensureLayout(for: textContainer)
     let rect = layoutManager.usedRect(for: textContainer)
+    preferredMaxLayoutWidth = rect.width
     return rect.size
   }
   /// Text to be displayed
@@ -294,6 +309,7 @@ final public class LCLabel: UILabel {
     assert(
       !newBounds.isNegative,
       "The new bounds are negative with isnt allowed, check the frame or the textInsets")
+    textContainer.maximumNumberOfLines = numberOfLines
     textContainer.size = newBounds.size
     layoutManager.ensureLayout(for: textContainer)
     let drawableFrame = layoutManager.usedRect(for: textContainer)
