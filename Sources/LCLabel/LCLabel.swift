@@ -309,7 +309,6 @@ final public class LCLabel: UILabel {
     assert(
       !newBounds.isNegative,
       "The new bounds are negative with isnt allowed, check the frame or the textInsets")
-    textContainer.maximumNumberOfLines = numberOfLines
     textContainer.size = newBounds.size
     layoutManager.ensureLayout(for: textContainer)
     let drawableFrame = layoutManager.usedRect(for: textContainer)
