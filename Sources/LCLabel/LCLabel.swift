@@ -226,11 +226,12 @@ final public class LCLabel: UILabel {
   /// Returns intrinsicContentSize of the current label
   public override var intrinsicContentSize: CGSize {
     let size: CGSize
-    // Getting the width of the current window, or the width
-    // of the super view since `window?.windowScene` will be nil
-    // if superview is set.
-    let width = window?.windowScene?.screen.bounds.width ??
-      superview?.bounds.width
+
+    // Use the full available width from our superview,
+    // or from the current window if no superview is available
+    let width = superview?.bounds.width ??
+      window?.windowScene?.screen.bounds.width
+
     if let width = width {
       size = CGSize(
         width: width,

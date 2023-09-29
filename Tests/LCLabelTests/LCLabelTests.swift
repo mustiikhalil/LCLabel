@@ -21,8 +21,8 @@ final class LCLabelTests: XCTestCase {
       ])
     let label = createLabel(
       text: attStr,
-      frame: CGRect(x: 0, y: 0, width: 300, height: 40))
-    label.numberOfLines = 1
+      frame: CGRect(x: 0, y: 0, width: 300, height: 40),
+      numberOfLines: 1)
     let failure = verifySnapshot(
       matching: label,
       as: .image,
@@ -45,8 +45,8 @@ final class LCLabelTests: XCTestCase {
       ])
     let label = createLabel(
       text: attStr,
-      frame: CGRect(x: 0, y: 0, width: 300, height: 40))
-    label.numberOfLines = 1
+      frame: CGRect(x: 0, y: 0, width: 300, height: 40),
+      numberOfLines: 1)
     let failure = verifySnapshot(
       matching: label,
       as: .image,
@@ -64,8 +64,8 @@ final class LCLabelTests: XCTestCase {
       ])
     let label = createLabel(
       text: attStr,
-      frame: CGRect(x: 0, y: 0, width: 300, height: 40))
-    label.numberOfLines = 1
+      frame: CGRect(x: 0, y: 0, width: 300, height: 40),
+      numberOfLines: 1)
     label.centeringTextAlignment = .top
     let failure = verifySnapshot(
       matching: label,
@@ -84,8 +84,8 @@ final class LCLabelTests: XCTestCase {
       ])
     let label = createLabel(
       text: attStr,
-      frame: CGRect(x: 0, y: 0, width: 300, height: 40))
-    label.numberOfLines = 1
+      frame: CGRect(x: 0, y: 0, width: 300, height: 40),
+      numberOfLines: 1)
     label.centeringTextAlignment = .bottom
     let failure = verifySnapshot(
       matching: label,
@@ -104,8 +104,8 @@ final class LCLabelTests: XCTestCase {
       ])
     let label = createLabel(
       text: attStr,
-      frame: CGRect(x: 0, y: 0, width: 300, height: 40))
-    label.numberOfLines = 1
+      frame: CGRect(x: 0, y: 0, width: 300, height: 40),
+      numberOfLines: 1)
     label.lineBreakMode = .byTruncatingTail
     let failure = verifySnapshot(
       matching: label,
@@ -124,8 +124,8 @@ final class LCLabelTests: XCTestCase {
       ])
     let label = createLabel(
       text: attStr,
-      frame: CGRect(x: 0, y: 0, width: 300, height: 40))
-    label.numberOfLines = 1
+      frame: CGRect(x: 0, y: 0, width: 300, height: 40),
+      numberOfLines: 1)
     label.lineBreakMode = .byTruncatingMiddle
     let failure = verifySnapshot(
       matching: label,
@@ -145,8 +145,8 @@ final class LCLabelTests: XCTestCase {
       ])
     let label = createLabel(
       text: attStr,
-      frame: CGRect(x: 0, y: 0, width: 300, height: 40))
-    label.numberOfLines = 1
+      frame: CGRect(x: 0, y: 0, width: 300, height: 40),
+      numberOfLines: 1)
     label.textInsets = UIEdgeInsets(top: 0, left: 30, bottom: 0, right: 30)
     let failure = verifySnapshot(
       matching: label,
@@ -171,8 +171,8 @@ final class LCLabelTests: XCTestCase {
       ]))
     let label = createLabel(
       text: attStr,
-      frame: CGRect(x: 0, y: 0, width: 300, height: 40))
-    label.numberOfLines = 2
+      frame: CGRect(x: 0, y: 0, width: 300, height: 40),
+      numberOfLines: 2)
     let failure = verifySnapshot(
       matching: label,
       as: .image,
@@ -196,9 +196,9 @@ final class LCLabelTests: XCTestCase {
       ]))
     let label = createLabel(
       text: attStr,
-      frame: CGRect(x: 0, y: 0, width: 300, height: 40))
+      frame: CGRect(x: 0, y: 0, width: 300, height: 40),
+      numberOfLines: 0)
     label.lineFragmentPadding = 10
-    label.numberOfLines = 0
     let failure = verifySnapshot(
       matching: label,
       as: .image,
@@ -222,8 +222,8 @@ final class LCLabelTests: XCTestCase {
       ]))
     let label = createLabel(
       text: attStr,
-      frame: CGRect(x: 0, y: 0, width: 300, height: 40))
-    label.numberOfLines = 2
+      frame: CGRect(x: 0, y: 0, width: 300, height: 40),
+      numberOfLines: 2)
     let failure = verifySnapshot(
       matching: label,
       as: .image,
@@ -248,8 +248,8 @@ final class LCLabelTests: XCTestCase {
       ]))
     let label = createLabel(
       text: attStr,
-      frame: CGRect(x: 0, y: 0, width: 300, height: 40))
-    label.numberOfLines = 2
+      frame: CGRect(x: 0, y: 0, width: 300, height: 40),
+      numberOfLines: 2)
     label.linkStyleValidation = .ensure
     let text = label.attributedText
     let range = NSRange(location: 0, length: attStr.length)
@@ -477,8 +477,8 @@ final class LCLabelTests: XCTestCase {
       context: nil)
     let label = createLabel(
       text: attStr,
-      frame: CGRect(x: 0, y: 0, width: width, height: size.height))
-    label.numberOfLines = 0
+      frame: CGRect(x: 0, y: 0, width: width, height: size.height),
+      numberOfLines: 0)
     let failure = verifySnapshot(
       matching: label,
       as: .image,
@@ -604,8 +604,8 @@ final class LCLabelTests: XCTestCase {
 
     let label = createLabel(
       text: attStr,
-      frame: .zero)
-    label.numberOfLines = 0
+      frame: .zero,
+      numberOfLines: 0)
     label.translatesAutoresizingMaskIntoConstraints = false
     let superview = UIView(frame: CGRect(x: 0, y: 0, width: 300, height: 300))
     superview.backgroundColor = .purple
@@ -818,7 +818,82 @@ final class LCLabelTests: XCTestCase {
     XCTAssertEqual(label.hitTest(CGPoint(x: 20, y: 25), with: nil), label)
   }
 
+  func testMultilineLinkTaps() {
+    let termsOfServiceString = "Terms of service"
+    let privacyPolicyString = "Privacy policy"
+    let termsOfServiceURL = URL(string: "lclabel://tos")!
+    let privacyPolicyURL = URL(string: "lclabel://p")!
+    let string = "You must accept \(termsOfServiceString) and \(privacyPolicyString)"
+    let attributedString = NSMutableAttributedString(string: string)
+    let termsOfServiceRange = attributedString.mutableString.range(of: termsOfServiceString)
+    let privacyPolicyRange = attributedString.mutableString.range(of: privacyPolicyString)
+    let firstRowTermsOfServiceTouchPoint = CGPoint(x: 115, y: 15)
+    let secondRowTermsOfServiceTouchPoint = CGPoint(x: 20, y: 26)
+    let privacyPolicyTouchPoint = CGPoint(x: 102, y: 26)
+    let label = LCLabel()
+    let containerView = UIView()
+    let viewController = UIViewController()
+    let window = makeVisibleInWindow(viewController)
+
+    attributedString.addAttributes([.lclabelLink: termsOfServiceURL], range: termsOfServiceRange)
+    attributedString.addAttributes([.lclabelLink: privacyPolicyURL], range: privacyPolicyRange)
+
+    label.translatesAutoresizingMaskIntoConstraints = false
+    label.isUserInteractionEnabled = true
+    label.textInsets = .zero
+    label.lineFragmentPadding = 0
+    label.numberOfLines = 0
+    label.delegate = self
+    label.setContentCompressionResistancePriority(.required, for: .vertical)
+    label.attributedText = attributedString
+    label.font = .systemFont(ofSize: 11)
+
+    containerView.translatesAutoresizingMaskIntoConstraints = false
+
+    viewController.view.addSubview(containerView)
+    containerView.addSubview(label)
+
+    NSLayoutConstraint.activate([
+        containerView.widthAnchor.constraint(equalToConstant: 140),
+        containerView.topAnchor.constraint(equalTo: viewController.view.topAnchor),
+        containerView.leadingAnchor.constraint(equalTo: viewController.view.leadingAnchor),
+
+        label.heightAnchor.constraint(equalToConstant: 40.0),
+        label.topAnchor.constraint(equalTo: containerView.topAnchor),
+        label.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
+        label.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
+        label.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
+    ])
+
+    let dispatchFinishedExpectation = expectation(description: "waitForDispatch")
+
+    XCTAssertNil(tappedURL)
+
+    // Perform a async dispatch on main to allow a draw cycle to complete before performing tests on the label
+    DispatchQueue.main.async {
+        self.touch(label, at: firstRowTermsOfServiceTouchPoint)
+        XCTAssertEqual(self.tappedURL, termsOfServiceURL)
+
+        self.touch(label, at: privacyPolicyTouchPoint)
+        XCTAssertEqual(self.tappedURL, privacyPolicyURL)
+
+        self.touch(label, at: secondRowTermsOfServiceTouchPoint)
+        XCTAssertEqual(self.tappedURL, termsOfServiceURL)
+
+        self.touch(label, at: CGPoint(x: -1000, y: -1000))
+        XCTAssertEqual(self.tappedURL, termsOfServiceURL)
+
+        window.isHidden = true
+
+        dispatchFinishedExpectation.fulfill()
+    }
+
+    wait(for: [dispatchFinishedExpectation], timeout: 1.0)
+  }
+
   // MARK: Private
+
+  private var tappedURL: URL?
 
   private func createLabel(
     text: NSMutableAttributedString,
@@ -830,10 +905,24 @@ final class LCLabelTests: XCTestCase {
     label.frame = frame
     label.centeringTextAlignment = alignment
     label.isUserInteractionEnabled = true
-    label.numberOfLines = 1
+    label.numberOfLines = numberOfLines
     label.attributedText = text
     label.backgroundColor = .black
     return label
+  }
+
+  private func touch(_ label: LCLabel, at point: CGPoint) {
+    let mockTouch = MockTouch(location: point)
+    let touches: Set<UITouch> = [mockTouch]
+
+    label.touchesBegan(touches, with: nil)
+    label.touchesEnded(touches, with: nil)
+  }
+}
+
+extension LCLabelTests: LCLabelDelegate {
+  func didPress(url: URL, at point: CGPoint) {
+    tappedURL = url
   }
 }
 
@@ -845,5 +934,33 @@ extension XCTestCase {
       .deletingLastPathComponent()
     return "\(fileUrl.path)/Sources/LCLabel/LCLabel.docc/Resources/__snapshots__"
   }
+}
 
+extension XCTestCase {
+  func makeVisibleInWindow(_ viewController: UIViewController) -> UIWindow {
+    let window = UIWindow()
+
+    window.rootViewController = viewController
+    window.makeKeyAndVisible()
+
+    return window
+  }
+}
+
+private class MockTouch: UITouch {
+
+  // MARK: Lifecycle
+
+  required init(location: CGPoint) {
+      self.location = location
+      super.init()
+  }
+
+  // MARK: Internal
+
+  let location: CGPoint
+
+  override func location(in view: UIView?) -> CGPoint {
+    location
+  }
 }
