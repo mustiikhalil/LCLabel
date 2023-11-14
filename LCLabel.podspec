@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'LCLabel'
-  s.version          = '1.2.0'
+  s.version          = '1.3.0'
   s.summary          = 'LCLabel is a TextKit 2 based UILabel'
   s.description      = "LCLabel is a TextKit 2 based UILabel that mimics a the behaviour of UITextView"
   s.homepage         = 'https://github.com/mustiikhalil/LCLabel'
