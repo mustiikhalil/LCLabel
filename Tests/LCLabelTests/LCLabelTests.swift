@@ -823,10 +823,13 @@ final class LCLabelTests: XCTestCase {
     let privacyPolicyString = "Privacy policy"
     let termsOfServiceURL = URL(string: "lclabel://tos")!
     let privacyPolicyURL = URL(string: "lclabel://p")!
-    let string = "You must accept \(termsOfServiceString) and \(privacyPolicyString)"
+    let string =
+      "You must accept \(termsOfServiceString) and \(privacyPolicyString)"
     let attributedString = NSMutableAttributedString(string: string)
-    let termsOfServiceRange = attributedString.mutableString.range(of: termsOfServiceString)
-    let privacyPolicyRange = attributedString.mutableString.range(of: privacyPolicyString)
+    let termsOfServiceRange = attributedString.mutableString
+      .range(of: termsOfServiceString)
+    let privacyPolicyRange = attributedString.mutableString
+      .range(of: privacyPolicyString)
     let firstRowTermsOfServiceTouchPoint = CGPoint(x: 115, y: 15)
     let secondRowTermsOfServiceTouchPoint = CGPoint(x: 20, y: 26)
     let privacyPolicyTouchPoint = CGPoint(x: 102, y: 26)
@@ -835,8 +838,12 @@ final class LCLabelTests: XCTestCase {
     let viewController = UIViewController()
     let window = makeVisibleInWindow(viewController)
 
-    attributedString.addAttributes([.lclabelLink: termsOfServiceURL], range: termsOfServiceRange)
-    attributedString.addAttributes([.lclabelLink: privacyPolicyURL], range: privacyPolicyRange)
+    attributedString.addAttributes(
+      [.lclabelLink: termsOfServiceURL],
+      range: termsOfServiceRange)
+    attributedString.addAttributes(
+      [.lclabelLink: privacyPolicyURL],
+      range: privacyPolicyRange)
 
     label.translatesAutoresizingMaskIntoConstraints = false
     label.isUserInteractionEnabled = true
@@ -854,38 +861,41 @@ final class LCLabelTests: XCTestCase {
     containerView.addSubview(label)
 
     NSLayoutConstraint.activate([
-        containerView.widthAnchor.constraint(equalToConstant: 140),
-        containerView.topAnchor.constraint(equalTo: viewController.view.topAnchor),
-        containerView.leadingAnchor.constraint(equalTo: viewController.view.leadingAnchor),
+      containerView.widthAnchor.constraint(equalToConstant: 140),
+      containerView.topAnchor
+        .constraint(equalTo: viewController.view.topAnchor),
+      containerView.leadingAnchor
+        .constraint(equalTo: viewController.view.leadingAnchor),
 
-        label.heightAnchor.constraint(equalToConstant: 40.0),
-        label.topAnchor.constraint(equalTo: containerView.topAnchor),
-        label.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
-        label.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
-        label.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
+      label.heightAnchor.constraint(equalToConstant: 40.0),
+      label.topAnchor.constraint(equalTo: containerView.topAnchor),
+      label.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
+      label.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
+      label.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
     ])
 
-    let dispatchFinishedExpectation = expectation(description: "waitForDispatch")
+    let dispatchFinishedExpectation =
+      expectation(description: "waitForDispatch")
 
     XCTAssertNil(tappedURL)
 
     // Perform a async dispatch on main to allow a draw cycle to complete before performing tests on the label
     DispatchQueue.main.async {
-        self.touch(label, at: firstRowTermsOfServiceTouchPoint)
-        XCTAssertEqual(self.tappedURL, termsOfServiceURL)
+      self.touch(label, at: firstRowTermsOfServiceTouchPoint)
+      XCTAssertEqual(self.tappedURL, termsOfServiceURL)
 
-        self.touch(label, at: privacyPolicyTouchPoint)
-        XCTAssertEqual(self.tappedURL, privacyPolicyURL)
+      self.touch(label, at: privacyPolicyTouchPoint)
+      XCTAssertEqual(self.tappedURL, privacyPolicyURL)
 
-        self.touch(label, at: secondRowTermsOfServiceTouchPoint)
-        XCTAssertEqual(self.tappedURL, termsOfServiceURL)
+      self.touch(label, at: secondRowTermsOfServiceTouchPoint)
+      XCTAssertEqual(self.tappedURL, termsOfServiceURL)
 
-        self.touch(label, at: CGPoint(x: -1000, y: -1000))
-        XCTAssertEqual(self.tappedURL, termsOfServiceURL)
+      self.touch(label, at: CGPoint(x: -1000, y: -1000))
+      XCTAssertEqual(self.tappedURL, termsOfServiceURL)
 
-        window.isHidden = true
+      window.isHidden = true
 
-        dispatchFinishedExpectation.fulfill()
+      dispatchFinishedExpectation.fulfill()
     }
 
     wait(for: [dispatchFinishedExpectation], timeout: 1.0)
@@ -952,8 +962,8 @@ private class MockTouch: UITouch {
   // MARK: Lifecycle
 
   required init(location: CGPoint) {
-      self.location = location
-      super.init()
+    self.location = location
+    super.init()
   }
 
   // MARK: Internal
