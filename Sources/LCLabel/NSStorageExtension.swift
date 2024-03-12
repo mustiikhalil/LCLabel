@@ -10,7 +10,6 @@ public extension NSAttributedString.Key {
 }
 
 extension NSTextStorage {
-
   func setupStorageWith(
     linkAttributes: [NSAttributedString.Key: Any],
     shouldExcludeUnderlinesFromText: Bool)
@@ -55,7 +54,7 @@ extension NSTextStorage {
     }
   }
 
-  private var linksRange: [NSRange]  {
+  private var linksRange: [NSRange] {
     var urlsRange: [NSRange] = []
     let textRange = NSMakeRange(0, length)
     enumerateAttributes(

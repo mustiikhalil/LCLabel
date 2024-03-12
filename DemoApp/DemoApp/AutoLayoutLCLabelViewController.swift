@@ -7,7 +7,6 @@ import LCLabel
 import UIKit
 
 final class AutoLayoutLCLabelViewController: UIViewController {
-
   var stackView: UIStackView!
 
   var currentPressedURL: URL?
@@ -73,13 +72,10 @@ final class AutoLayoutLCLabelViewController: UIViewController {
     label.attributedText = text
     return label
   }
-
 }
 
 extension AutoLayoutLCLabelViewController: LCLabelDelegate {
-
   func didPress(url: URL, at point: CGPoint) {
     currentPressedURL = url
   }
-
 }

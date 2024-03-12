@@ -15,7 +15,6 @@ public protocol LCLabelDelegate: AnyObject {
 /// to match UILabel. This enables link detection, and simple text display,
 /// with paddings.
 final public class LCLabel: UILabel {
-
   // MARK: Lifecycle
 
   public convenience init() {
@@ -271,8 +270,7 @@ final public class LCLabel: UILabel {
   // MARK: - Implementation
 
   public override func drawText(in rect: CGRect) {
-    guard let storage = renderedStorage, !storage.string.isEmpty else
-    {
+    guard let renderedStorage, !renderedStorage.string.isEmpty else {
       return
     }
 
@@ -382,7 +380,6 @@ final public class LCLabel: UILabel {
 // MARK: - Touch APIS
 
 extension LCLabel {
-
   public override var canBecomeFirstResponder: Bool {
     true
   }
@@ -496,5 +493,4 @@ extension LCLabel {
     }
     return url
   }
-
 }

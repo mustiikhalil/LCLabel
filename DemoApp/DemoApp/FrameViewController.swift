@@ -7,7 +7,6 @@ import LCLabel
 import UIKit
 
 final class LCLabelViewController: UIViewController {
-
   var count: Int = 0
   var label: LCLabel!
   var label2: LCLabel!
@@ -107,14 +106,11 @@ final class LCLabelViewController: UIViewController {
     label.accessibilityIdentifier = "lcllabel+\(count)"
     return label
   }
-
 }
 
 extension LCLabelViewController: LCLabelDelegate {
-
   func didPress(url: URL, at point: CGPoint) {
     currentPressedURL = url
     label5.text = url.absoluteString
   }
-
 }
