@@ -7,7 +7,6 @@ import XCTest
 
 // Screenshots taken on an iPhone 13
 final class LCLabelHitTests: XCTestCase {
-
   // MARK: Internal
 
   override func setUpWithError() throws {
@@ -126,7 +125,6 @@ final class LCLabelHitTests: XCTestCase {
   // MARK: Private
 
   private var app: XCUIApplication!
-
 }
 
 private extension XCUIApplication {

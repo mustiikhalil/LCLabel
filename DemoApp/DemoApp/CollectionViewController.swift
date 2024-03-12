@@ -7,7 +7,6 @@ import LCLabel
 import UIKit
 
 final class CollectionViewController: UIViewController {
-
   // MARK: Internal
 
   var dataSource: UICollectionViewDiffableDataSource<Int, String>?
@@ -74,11 +73,9 @@ final class CollectionViewController: UIViewController {
         animatingDifferences: animatingDifferences)
     }
   }
-
 }
 
 private final class CollectionCell: UICollectionViewCell {
-
   // MARK: Lifecycle
 
   override init(frame: CGRect) {

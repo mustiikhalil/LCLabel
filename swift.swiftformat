@@ -6,7 +6,7 @@
 
 # options
 --self remove # redundantSelf
---importgrouping testable-bottom # sortedImports
+--importgrouping testable-bottom # sortImports
 --trimwhitespace always
 --indentcase false
 --ifdef no-indent #indent
@@ -17,7 +17,11 @@
 --typeattributes prev-line # wrapAttributes
 
 # rules
---rules wrap,todos,anyObjectProtocol,redundantParens,redundantReturn,redundantSelf,sortedImports,strongifiedSelf,trailingCommas,trailingSpace,wrapArguments,wrapMultilineStatementBraces,indent,wrapAttributes,void,fileHeader,organizeDeclarations
+--rules wrap,todos,anyObjectProtocol,redundantParens,redundantReturn,redundantSelf,sortImports
+--rules strongifiedSelf,trailingCommas,trailingSpace,wrapArguments,wrapMultilineStatementBraces
+--rules indent,wrapAttributes,void,fileHeader,organizeDeclarations,consecutiveBlankLines,consecutiveSpaces
+--rules blankLinesAtEndOfScope,blankLinesBetweenChainedFunctions,braces,conditionalAssignment,blankLinesAtStartOfScope
+
 --disable trailingclosures
 
 --header "// Copyright (c) Mustafa Khalil. and contributors.\n\n// This source code is licensed under the MIT license found in the\n// LICENSE file in the root directory of this source tree."

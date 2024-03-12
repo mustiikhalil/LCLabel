@@ -9,7 +9,6 @@ import XCTest
 
 // Screenshots taken on an iPhone 14 Pro iOS 16.2
 final class LCLabelTests: XCTestCase {
-
   // MARK: Internal
 
   func testTextCenterAlignment() {
@@ -134,7 +133,6 @@ final class LCLabelTests: XCTestCase {
     guard let message = failure else { return }
     XCTFail(message)
   }
-
 
   func testTextPadding() {
     let attStr = NSMutableAttributedString(
@@ -455,7 +453,6 @@ final class LCLabelTests: XCTestCase {
     guard let message = failure else { return }
     XCTFail(message)
   }
-
 
   func testSuperLongText() {
     let text = """
@@ -958,7 +955,6 @@ extension XCTestCase {
 }
 
 private class MockTouch: UITouch {
-
   // MARK: Lifecycle
 
   required init(location: CGPoint) {

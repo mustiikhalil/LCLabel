@@ -7,7 +7,6 @@ import LCLabel
 import XCTest
 
 final class LCLabelScrollTests: XCTestCase {
-
   // MARK: Internal
 
   override func setUpWithError() throws {
@@ -50,9 +49,7 @@ final class LCLabelScrollTests: XCTestCase {
     }
   }
 
-
   // MARK: Private
 
   private var app: XCUIApplication!
-
 }
