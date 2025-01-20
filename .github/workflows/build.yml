@@ -11,7 +11,7 @@ on:
 jobs:
   test:
     name: Test
-    runs-on: macos-14
+    runs-on: macos-15
     steps:
     - uses: actions/checkout@v1
     - name: Setup - Slather
@@ -19,8 +19,8 @@ jobs:
     - name: test
       run: cd DemoApp && xcodebuild -scheme DemoApp -project DemoApp.xcodeproj -destination "platform=iOS Simulator,name=$PHONE,OS=$OS" -enableCodeCoverage YES test | xcpretty && exit ${PIPESTATUS[0]}
       env:
-        OS: 17.2
-        PHONE: "iPhone 15 Pro"
+        OS: 18.2 
+        PHONE: "iPhone 16 Pro"
     - name: Slather
       run: slather
     - name: Upload coverage to Codecov
